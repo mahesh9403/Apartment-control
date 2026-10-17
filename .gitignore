@@ -16,6 +16,7 @@ xcuserdata/
 # The app keeps these in ~/Library/Application Support/HouseControl, outside the repository.
 plan.json
 plan.backup*.json
+web/public/plans/80x66-apartment.json
 smartlife.json
 tuya.json
 lgthinq.json
