@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="docs/icon.png" width="112" alt="House Control icon">
+  <img src="docs/icon.png" width="112" alt="Apartment Control icon">
 </p>
 
-<h1 align="center">House Control</h1>
+<h1 align="center">Apartment Control</h1>
 
 <p align="center">
   Your home as a live 3D model — in the Mac's menu bar, around its notch and on your iPhone —<br>
@@ -47,16 +47,16 @@ No frameworks, no Electron, no server, no account of its own.
 
 ## Download
 
-1. Get `HouseControl-<version>.dmg` from [Releases](https://github.com/0xProbabillity/house-control/releases).
+1. Get `ApartmentControl-<version>.dmg` from [Releases](https://github.com/mahesh9403/Apartment-control/releases).
    It runs on macOS 13 or newer, Apple silicon and Intel.
-2. Open it and drag **House Control** into **Applications**.
-3. Open **House Control** from Applications. The first time, macOS stops it with *“Apple could not verify…”*,
+2. Open it and drag **Apartment Control** into **Applications**.
+3. Open **Apartment Control** from Applications. The first time, macOS stops it with *“Apple could not verify…”*,
    because the app is not signed with a paid Apple Developer ID (see [why](#why-the-app-is-not-notarized)).
    Allow it once:
    - **macOS 15 Sequoia and newer:** click **Done**, open **System Settings → Privacy & Security**, scroll down
-     to *“House Control was blocked…”*, click **Open Anyway** and confirm with your password.
+      to *“Apartment Control was blocked…”*, click **Open Anyway** and confirm with your password.
    - **macOS 13–14:** Control-click the app in Applications, choose **Open**, then **Open** again.
-   - Or, in Terminal: `xattr -dr com.apple.quarantine "/Applications/House Control.app"`
+   - Or, in Terminal: `xattr -dr com.apple.quarantine "/Applications/Apartment Control.app"`
 4. Look for the house in the menu bar — there is no Dock icon and no window. Click it.
 
 What is new in each release: [CHANGELOG.md](CHANGELOG.md).
@@ -71,8 +71,8 @@ Every release image is built by [GitHub Actions](.github/workflows/release.yml) 
 anyone's Mac — and comes with its SHA-256 and a signed build provenance attestation:
 
 ```bash
-shasum -a 256 -c HouseControl-<version>.dmg.sha256
-gh attestation verify HouseControl-<version>.dmg --repo 0xProbabillity/house-control
+shasum -a 256 -c ApartmentControl-<version>.dmg.sha256
+gh attestation verify ApartmentControl-<version>.dmg --repo mahesh9403/Apartment-control
 ```
 
 The second command proves the image was built by this repository's workflow, and shows from which commit.
@@ -82,12 +82,12 @@ does not store attestations for free accounts, so for it only the SHA-256 can be
 ### Why the app is not notarized
 
 Notarizing needs an Apple Developer ID, and that certificate carries a person's legal name inside every copy of
-the app. House Control ships signed ad hoc instead, and earns trust the open-source way: the code is all here,
+the app. Apartment Control ships signed ad hoc instead, and earns trust the open-source way: the code is all here,
 the release is built in public, and you can [build it yourself](#build-and-run) in a couple of minutes.
 
 ### Remove it
 
-Quit it (right-click the menu bar icon → **Quit**), delete **House Control** from Applications and, to remove your
+Quit it (right-click the menu bar icon → **Quit**), delete **Apartment Control** from Applications and, to remove your
 plan and connections too, `~/Library/Application Support/HouseControl/`.
 
 ## Requirements
@@ -102,20 +102,20 @@ plan and connections too, `~/Library/Application Support/HouseControl/`.
 ## Build and run
 
 ```bash
-git clone https://github.com/0xProbabillity/house-control.git
-cd house-control
+git clone https://github.com/mahesh9403/Apartment-control.git
+cd Apartment-control
 ./scripts/build-app.sh
-open build/HouseControl.app
+open "build/Apartment Control.app"
 ```
 
 The script builds the web UI with Vite, the native shell with SwiftPM, and assembles an ad-hoc signed
-`build/HouseControl.app`. The first build downloads the npm packages; later builds take a few seconds.
+`build/Apartment Control.app`. The first build downloads the npm packages; later builds take a few seconds.
 
 The app is signed ad hoc. If you rebuild often and use iPhone sync, sign it with your own certificate instead, so
 macOS does not ask for the Local Network permission after every build:
 `CODESIGN_IDENTITY="Apple Development: you@example.com (ABCDE12345)" ./scripts/build-app.sh`.
 
-To keep it, drag `build/HouseControl.app` into `/Applications`. To start it with your Mac, turn on **Open at
+To keep it, drag `build/Apartment Control.app` into `/Applications`. To start it with your Mac, turn on **Open at
 Login** in the menu bar icon's right-click menu (or in the panel's gear menu); it shows up under
 **System Settings → General → Login Items**, where it can be switched off too.
 
@@ -153,7 +153,7 @@ Right-click the menu bar icon → **AI Access…** → **Start AI Access**, and 
   and the assistant can also change the home itself: *"here are photos of my living room — rebuild it in 3D"*.
 - **Your own agents:** the same tools as plain HTTP + JSON, with an OpenAPI description.
 
-The Mac serves it all: House Control listens on `127.0.0.1` only and is reached through a Cloudflare quick tunnel that
+The Mac serves it all: Apartment Control listens on `127.0.0.1` only and is reached through a Cloudflare quick tunnel that
 exists while AI Access is on (or not at all, with **This Mac only**). The link carries a 128-bit key, you choose what an
 assistant may do, every request shows up live in the window, plan edits can be undone, and **Stop** — or the
 auto-stop timer — makes the address disappear. Device IDs and sign-ins never leave the Mac.
@@ -210,7 +210,7 @@ Optional. Pair a Mac and your floor plan — rooms, furniture, lamps, scenes and
 Home Assistant and Hue connections stay the same on both, whichever one you set up or edit first.
 
 1. On the Mac: right-click the menu bar icon → **Pair iPhone…**. A QR code appears.
-   macOS asks once whether House Control may find devices on your local network: allow it.
+   macOS asks once whether Apartment Control may find devices on your local network: allow it.
 2. On the iPhone: **Settings** (the sliders button) → **Pair with Mac**, and point the camera at the code.
    Or press **Copy Pairing Link** on the Mac and paste it on the phone.
 
@@ -235,7 +235,7 @@ The session is kept in the iPhone's Keychain and never leaves the device.
 ## Widgets
 
 <p align="center">
-  <img src="docs/widgets.png" width="820" alt="House Control widgets: Home in 3D, scenes, climate, a light and a room">
+  <img src="docs/widgets.png" width="820" alt="Apartment Control widgets: Home in 3D, scenes, climate, a light and a room">
 </p>
 
 Every widget is live: tap a lamp, a scene or an AC and it switches without opening the app.
@@ -298,7 +298,7 @@ versions of Home Assistant, a Hue Bridge and a HomeKit bridge.
 
 ## Privacy
 
-House Control talks to the platforms you connect — Tuya's servers for Smart Life, LG ThinQ Connect for LG appliances, your own Home Assistant,
+Apartment Control talks to the platforms you connect — Tuya's servers for Smart Life, LG ThinQ Connect for LG appliances, your own Home Assistant,
 your Hue Bridge, Apple Home on the iPhone — and to nothing else. There is no telemetry and no backend of its own.
 The one exception is yours to switch on: [AI Access](#ai-access) opens a Cloudflare tunnel to your Mac while it is on.
 
@@ -384,7 +384,7 @@ without Bonjour) and `HOUSE_SCREEN=home|settings|connections|pairing|smartlife|h
 For example, a throw-away instance on the demo plan, pinned open:
 
 ```bash
-HOUSE_DATA_DIR=/tmp/house-demo HOUSE_PIN=1 HOUSE_OPEN_ON_LAUNCH=1 build/HouseControl.app/Contents/MacOS/HouseControl
+HOUSE_DATA_DIR=/tmp/house-demo HOUSE_PIN=1 HOUSE_OPEN_ON_LAUNCH=1 "build/Apartment Control.app/Contents/MacOS/HouseControl"
 ```
 
 The binary has a few offline self-checks and one read-only diagnostic:
@@ -428,10 +428,10 @@ signed and notarized image locally instead; the script lists what it needs.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/support/banner-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/support/banner-light.svg">
-  <img src="docs/support/banner-light.svg" width="100%" alt="Support House Control">
+  <img src="docs/support/banner-light.svg" width="100%" alt="Support Apartment Control">
 </picture>
 
-House Control is free and has no ads. If it earned a place in your menu bar, a tip in crypto
+Apartment Control is free and has no ads. If it earned a place in your menu bar, a tip in crypto
 helps it keep growing: more devices, more platforms, quicker fixes. Thank you! A star, a bug report or a
 pull request helps just as much.
 

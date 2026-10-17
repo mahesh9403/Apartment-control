@@ -179,7 +179,7 @@ struct QuickActionsView: View {
             } header: {
                 header("On the icon · \(quick.chosen.count) of \(QuickActions.limit)")
             } footer: {
-                Text("Press and hold House Control on the Home Screen. Drag to reorder, swipe to remove.")
+                Text("Press and hold Apartment Control on the Home Screen. Drag to reorder, swipe to remove.")
                     .font(.system(size: 13)).foregroundStyle(Theme.faint)
             }
             ForEach(QuickAction.Group.allCases, id: \.self) { group in

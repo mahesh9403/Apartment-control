@@ -49,7 +49,7 @@ final class CloudflareTunnel {
         // cloudflared reads ~/.cloudflared/config.yml when it exists; a quick tunnel must not
         // pick up the user's own named-tunnel settings, so it gets an empty file of its own.
         let config = directory.appendingPathComponent("cloudflared.yml")
-        if !FileManager.default.fileExists(atPath: config.path) { try? Data("# House Control quick tunnel\n".utf8).write(to: config) }
+        if !FileManager.default.fileExists(atPath: config.path) { try? Data("# Apartment Control quick tunnel\n".utf8).write(to: config) }
         process.arguments = ["tunnel", "--no-autoupdate", "--config", config.path, "--metrics", "127.0.0.1:0",
                              "--url", "http://127.0.0.1:\(port)"]
         process.currentDirectoryURL = directory

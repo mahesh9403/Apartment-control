@@ -1,12 +1,12 @@
 #!/bin/bash
-# Builds HouseControl.app: web UI (Vite) + native shell (SwiftPM), assembled into build/.
+# Builds Apartment Control.app: web UI (Vite) + native shell (SwiftPM), assembled into build/.
 #   UNIVERSAL=1          one binary for Apple silicon and Intel Macs (what scripts/release-mac.sh ships)
 #   CODESIGN_IDENTITY=…  sign with your certificate instead of ad hoc (see the end of this file)
-#   APP_PATH=…           where to put the app (default build/HouseControl.app)
+#   APP_PATH=…           where to put the app (default build/Apartment Control.app)
 #   SKIP_WIDGETS=1       leave out the desktop and Control Center widgets (they need Xcode and xcodegen)
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-APP="${APP_PATH:-$ROOT/build/HouseControl.app}"
+APP="${APP_PATH:-$ROOT/build/Apartment Control.app}"
 # One version for both apps: the iPhone app's MARKETING_VERSION / CURRENT_PROJECT_VERSION.
 VERSION="${VERSION:-$(sed -n 's/^MARKETING_VERSION *= *//p' "$ROOT/ios/Config/Base.xcconfig")}"
 BUILD="${BUILD:-$(sed -n 's/^CURRENT_PROJECT_VERSION *= *//p' "$ROOT/ios/Config/Base.xcconfig")}"
@@ -64,8 +64,8 @@ cat > "$APP/Contents/Info.plist" <<PLIST
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-  <key>CFBundleName</key><string>House Control</string>
-  <key>CFBundleDisplayName</key><string>House Control</string>
+  <key>CFBundleName</key><string>Apartment Control</string>
+  <key>CFBundleDisplayName</key><string>Apartment Control</string>
   <key>CFBundleIdentifier</key><string>io.github.0xprobabillity.HouseControl</string>
   <key>CFBundleExecutable</key><string>HouseControl</string>
   <key>CFBundleIconFile</key><string>AppIcon</string>
@@ -76,7 +76,7 @@ cat > "$APP/Contents/Info.plist" <<PLIST
   <key>LSApplicationCategoryType</key><string>public.app-category.utilities</string>
   <key>NSHumanReadableCopyright</key><string>© 0xProbability. MIT License.</string>
   <key>LSUIElement</key><true/>
-  <key>NSLocalNetworkUsageDescription</key><string>House Control finds your Home Assistant and Hue Bridge on this network, and lets the iPhones you paired find this Mac to receive your floor plan.</string>
+  <key>NSLocalNetworkUsageDescription</key><string>Apartment Control finds your Home Assistant and Hue Bridge on this network, and lets the iPhones you paired find this Mac to receive your floor plan.</string>
   <key>NSBonjourServices</key><array><string>_housecontrol._tcp</string><string>_hue._tcp</string><string>_home-assistant._tcp</string></array>
   <key>NSHighResolutionCapable</key><true/>
   <key>HouseAppGroup</key><string>$GROUP</string>

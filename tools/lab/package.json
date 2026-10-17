@@ -1,7 +1,7 @@
 {
   "name": "house-control-lab",
   "private": true,
-  "description": "Pretend smart homes for testing House Control without hardware",
+  "description": "Pretend smart homes for testing Apartment Control without hardware",
   "type": "module",
   "scripts": {
     "homekit": "node homekit.mjs",

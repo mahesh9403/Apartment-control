@@ -1,6 +1,6 @@
 # Smart Life / Tuya devices
 
-House Control controls the devices of a **Smart Life** or **Tuya Smart** account. Until you connect one,
+Apartment Control controls the devices of a **Smart Life** or **Tuya Smart** account. Until you connect one,
 every device in the plan is simulated.
 
 ## Signing in
@@ -8,7 +8,7 @@ every device in the plan is simulated.
 You need the phone app with your devices already added to it. No Tuya developer account is required.
 
 1. In the phone app: **Me → ⚙ Settings → Account and Security**. Copy the **User Code** at the bottom of the screen.
-2. In House Control: right-click the menu bar icon → **Edit Home… → Connections → Smart Life**. Enter the User Code and press **Show QR code**.
+2. In Apartment Control: right-click the menu bar icon → **Edit Home… → Connections → Smart Life**. Enter the User Code and press **Show QR code**.
 3. Scan the code with the phone app (the scanner icon on its Home tab) and confirm.
 4. The editor lists the devices of the account.
 
@@ -93,7 +93,7 @@ To see exactly what the cloud knows about a device — its category, its functio
 current status — run the read-only diagnostic with its device ID (shown in the editor):
 
 ```bash
-build/HouseControl.app/Contents/MacOS/HouseControl --diagnose <device id>
+"build/Apartment Control.app/Contents/MacOS/HouseControl" --diagnose <device id>
 ```
 
 It sends nothing to the device.

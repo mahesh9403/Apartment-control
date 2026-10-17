@@ -1,8 +1,8 @@
-# A Home Assistant with pretend devices, for testing House Control without hardware.
+# A Home Assistant with pretend devices, for testing Apartment Control without hardware.
 # Started by ../homeassistant.sh. The "demo" integration adds lights (dimmable, white,
 # colour), thermostats / heat pumps and temperature sensors that answer like real ones.
 homeassistant:
-  name: House Control Lab
+  name: Apartment Control Lab
   unit_system: metric
   temperature_unit: C
   time_zone: UTC

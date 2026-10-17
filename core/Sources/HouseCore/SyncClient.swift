@@ -194,7 +194,7 @@ public final class SyncClient {
                 if case .failed = state { self.scheduleRetry() }
                 // No permission to use the local network: say so instead of searching forever.
                 if case .waiting(let error) = state, case .dns(let code) = error, code == DNSServiceErrorType(kDNSServiceErr_PolicyDenied) {
-                    self.set(.failed("Allow House Control to use the local network in Settings → Privacy & Security → Local Network."))
+                    self.set(.failed("Allow Apartment Control to use the local network in Settings → Privacy & Security → Local Network."))
                 }
             }
         }

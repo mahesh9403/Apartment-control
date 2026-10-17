@@ -18,7 +18,7 @@ struct WelcomeView: View {
                 .padding(.top, 44)
                 .accessibilityHidden(true)
 
-            Text("Welcome to House Control")
+            Text("Welcome to Apartment Control")
                 .font(.system(size: 27, weight: .bold))
                 .foregroundStyle(Theme.text)
                 .multilineTextAlignment(.center)

@@ -1,7 +1,7 @@
 import SwiftUI
 import WidgetKit
 
-/// Every widget and control House Control offers, on the iPhone and the Mac.
+/// Every widget and control Apartment Control offers, on the iPhone and the Mac.
 @main
 struct HouseWidgets: WidgetBundle {
     var body: some Widget {

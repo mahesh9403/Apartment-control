@@ -9,7 +9,7 @@ import './console.css';
 
 const CLIENT_COLORS = {
   ChatGPT: '#19c37d', Claude: '#e08a5f', 'Claude Code': '#e08a5f', Cursor: '#e6e9f2', Gemini: '#6ea8ff',
-  Perplexity: '#3fc1c9', Copilot: '#8ab4ff', 'House Control': '#8a94ab',
+  Perplexity: '#3fc1c9', Copilot: '#8ab4ff', 'Apartment Control': '#8a94ab',
 };
 const clientColor = (name) => CLIENT_COLORS[name] || '#b9a6ff';
 
@@ -74,7 +74,7 @@ export function bootConsole(root) {
   const footer = h('footer.privacy',
     h('div.privacy-title', icon('shield', 15), 'Private by design'),
     h('ul',
-      h('li', 'Runs on this Mac. No House Control server, no account, nothing stored anywhere else.'),
+      h('li', 'Runs on this Mac. No Apartment Control server, no account, nothing stored anywhere else.'),
       h('li', 'The link holds a 128-bit secret. Without it every address answers “not found”.'),
       h('li', 'Stop ends it at once — the address itself stops existing. Each start makes a new one.'),
       h('li', 'Device IDs and sign-ins never leave the Mac. Cloudflare only relays the encrypted connection.')));
@@ -126,7 +126,7 @@ export function bootConsole(root) {
   }
 
   function chatPrompt() {
-    return `You can control my home with House Control. Open this private link and follow its instructions: ${status.link}\n\n`;
+    return `You can control my home with Apartment Control. Open this private link and follow its instructions: ${status.link}\n\n`;
   }
 
   function codeBlock(text, label = 'Copy') {
@@ -156,16 +156,16 @@ export function bootConsole(root) {
     } else if (tab === 'claude') {
       body = [
         steps(h('span', 'In Claude open ', h('b', 'Settings → Connectors → Add custom connector'), '.'),
-          h('span', 'Name it ', h('b', 'House Control'), ' and paste this address:')),
+          h('span', 'Name it ', h('b', 'Apartment Control'), ' and paste this address:')),
         codeBlock(mcp),
         steps(3, h('span', 'In a chat, turn it on from the tools menu and ask away — or attach photos: ', h('em', '“here is my living room, rebuild it in 3D”'), '.')),
       ];
     } else if (tab === 'chatgpt') {
       body = [
         steps(h('span', 'In ChatGPT open ', h('b', 'Settings → Apps & Connectors → Advanced'), ' and turn on ', h('b', 'Developer mode'), '.'),
-          h('span', h('b', 'Create'), ' a connector named ', h('b', 'House Control'), ' with this MCP address and no authentication:')),
+          h('span', h('b', 'Create'), ' a connector named ', h('b', 'Apartment Control'), ' with this MCP address and no authentication:')),
         codeBlock(mcp),
-        steps(3, h('span', 'In a chat choose Developer mode, add House Control, and talk to your home.')),
+        steps(3, h('span', 'In a chat choose Developer mode, add Apartment Control, and talk to your home.')),
         h('p.muted', 'No developer mode? “Copy for a chat” works in any ChatGPT conversation that can browse.'),
       ];
     } else {
@@ -210,7 +210,7 @@ export function bootConsole(root) {
     feed.replaceChildren(...visible.map((e) => {
       const key = `${e.time}|${e.title}`;
       const item = h(`li${e.ok ? '' : '.bad'}${e.quiet ? '.quiet' : ''}${shown.has(key) ? '' : '.fresh'}`,
-        h('span.who', { vars: { '--c': clientColor(e.client) } }, e.client === 'House Control' ? icon('home', 11, 2.2) : icon('sparkles', 11, 2.2), e.client),
+        h('span.who', { vars: { '--c': clientColor(e.client) } }, e.client === 'Apartment Control' ? icon('home', 11, 2.2) : icon('sparkles', 11, 2.2), e.client),
         h('span.what', e.title),
         h('time', ago(e.time)));
       shown.add(key);
@@ -299,15 +299,15 @@ function fakeNative(update) {
         const base = s.reach === 'local' ? 'http://127.0.0.1:7419' : 'https://quiet-harbor-lamp-meadow.trycloudflare.com';
         const link = `${base}/k3VbQ9mX2pLr8tNw4yHc0A`;
         set({ state: 'live', link, mcp: `${link}/mcp`, startedAt: Date.now(), stopsAt: s.autoStop === 'never' ? null : Date.now() + (s.autoStop === '1h' ? 1 : 8) * 3600e3 });
-        log('House Control', 'Link is live');
+      log('Apartment Control', 'Link is live');
       }, 1600);
     } else if (type === 'agent.stop') {
-      if (s.state === 'live') log('House Control', 'Stopped — the link no longer works');
+      if (s.state === 'live') log('Apartment Control', 'Stopped — the link no longer works');
       set({ state: 'off', link: null, mcp: null });
     } else if (type === 'agent.settings') {
       set(Object.fromEntries(Object.entries(payload).filter(([, v]) => v != null)));
     } else if (type === 'agent.undo') {
-      log('House Control', 'Undid the last floor plan change');
+      log('Apartment Control', 'Undid the last floor plan change');
       set({ canUndo: false });
     } else if (type === 'agent.open') {
       window.open(payload.url, '_blank');

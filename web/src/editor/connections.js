@@ -1,5 +1,5 @@
-// The editor's "Connections": the smart home platforms House Control can link the plan's
-// lamps and ACs to (Smart Life, Home Assistant, Philips Hue, Apple Home), the screens that
+// The editor's "Connections": the smart home platforms Apartment Control can link the plan's
+// lamps and ACs to (Smart Life, LG ThinQ, Home Assistant, Philips Hue, Apple Home), the screens that
 // connect each one, and the pickers that link a lamp or an AC to one of their devices.
 import { h } from '../ui/dom.js';
 import { icon } from '../ui/icons.js';
@@ -94,7 +94,7 @@ export function createConnections({ rerender, toast, usedBy, onOpen }) {
         h(`span.svc-status${connected(id) ? '.on' : ''}`, connected(id) ? icon('ok', 13, 2.4) : null, statusText(id)),
         icon('next', 16)))),
       h('p.note', 'Lamps and ACs stay simulated until you link them: pick one on the plan, then choose its device under “Real device”. One home can mix them all.'),
-      isNative ? null : h('p.note.bad', 'Connecting works inside the House Control app (this is the browser preview).'),
+      isNative ? null : h('p.note.bad', 'Connecting works inside the Apartment Control app (this is the browser preview).'),
     ];
   }
 
@@ -190,7 +190,7 @@ export function createConnections({ rerender, toast, usedBy, onOpen }) {
         h('label.field', h('span', 'Access token'), token),
         h('ol.steps',
           h('li', 'In Home Assistant, open your profile (your name at the bottom left) → Security.'),
-          h('li', 'Under “Long-lived access tokens” press Create token, name it “House Control”, copy it here.')),
+          h('li', 'Under “Long-lived access tokens” press Create token, name it “Apartment Control”, copy it here.')),
         button,
         ha.error ? h('p.note.bad', ha.error) : null,
         h('p.note', 'The token stays on this Mac (and goes to the iPhones you paired, over their encrypted link). Lights, switches, climate devices and temperature sensors appear here.')),
@@ -235,7 +235,7 @@ export function createConnections({ rerender, toast, usedBy, onOpen }) {
           h('li', 'Enter IN for an India-registered account, then paste the token here.')),
         button,
         lgthinq.error ? h('p.note.bad', lgthinq.error) : null,
-        h('p.note', 'The token stays on this Mac. House Control talks directly to LG ThinQ Connect; Home Assistant and Apple Home are not required.')),
+        h('p.note', 'The token stays on this Mac. Apartment Control talks directly to LG ThinQ Connect; Home Assistant and Apple Home are not required.')),
     ];
   }
 
@@ -291,7 +291,7 @@ export function createConnections({ rerender, toast, usedBy, onOpen }) {
         h('div.fields',
           state.pairing.error ? h('button.btn', { onclick: () => pairHue(state.pairing) }, 'Try again') : null,
           h('button.btn', { onclick: () => { stopPairing(); rerender(); } }, 'Cancel')),
-        h('p.note', 'The big button on top of the Hue Bridge lets one app in for 30 seconds. House Control keeps the key it gets, on this Mac.'))];
+        h('p.note', 'The big button on top of the Hue Bridge lets one app in for 30 seconds. Apartment Control keeps the key it gets, on this Mac.'))];
     }
     if (!state.found.hue && !state.scanning.hue) setTimeout(() => scan('hue'), 0);
     const found = state.found.hue || [];
@@ -328,7 +328,7 @@ export function createConnections({ rerender, toast, usedBy, onOpen }) {
     nodes.push(section(info.connected ? 'How it works' : 'Set it up on your iPhone',
       h('ol.steps',
         h('li', 'Pair your iPhone with this Mac: right-click the menu bar icon → Pair iPhone….'),
-        h('li', 'On the iPhone: House Control → Settings → Apple Home → Connect, and allow access to your Home data.'),
+        h('li', 'On the iPhone: Apartment Control → Settings → Apple Home → Connect, and allow access to your Home data.'),
         h('li', 'Its lamps, air conditioners and thermometers appear here. Link them like any other device.')),
       h('p.note', 'Apple lets only iPhone, iPad and App Store apps use HomeKit, so the iPhone app switches these devices. On the Mac they show what you set, but stay simulated.')));
     return nodes;

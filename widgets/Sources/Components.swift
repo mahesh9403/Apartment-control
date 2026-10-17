@@ -179,7 +179,7 @@ struct ClimateButtons: View {
     }
 }
 
-/// "House Control" with the app's mark, for headers.
+/// "Apartment Control" with the app's mark, for headers.
 struct HomeTitle: View {
     let home: HomeSnapshot
     var size: CGFloat = 14

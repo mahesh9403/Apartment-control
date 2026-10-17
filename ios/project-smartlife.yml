@@ -13,7 +13,7 @@ targets:
         product: HouseSmartLife
     info:
       properties:
-        NSPhotoLibraryAddUsageDescription: House Control saves the Smart Life sign-in code to Photos, so the Smart Life app on this iPhone can scan it from there.
+        NSPhotoLibraryAddUsageDescription: Apartment Control saves the Smart Life sign-in code to Photos, so the Smart Life app on this iPhone can scan it from there.
     settings:
       base:
         SWIFT_ACTIVE_COMPILATION_CONDITIONS: $(inherited) SMART_LIFE

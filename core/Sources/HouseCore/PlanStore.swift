@@ -77,7 +77,7 @@ public final class PlanStore {
     public static func validate(_ data: Data) throws -> [String: Any] {
         guard let plan = try JSONSerialization.jsonObject(with: data) as? [String: Any], plan["rooms"] is [Any] else {
             throw NSError(domain: "HouseControl", code: 1, userInfo: [
-                NSLocalizedDescriptionKey: "This file is not a House Control floor plan (no \"rooms\" list)."])
+                NSLocalizedDescriptionKey: "This file is not an Apartment Control floor plan (no \"rooms\" list)."])
         }
         return plan
     }

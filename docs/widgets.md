@@ -1,6 +1,6 @@
 # Widgets, controls and quick actions
 
-House Control puts the home on the iPhone's Home Screen, Lock Screen and Control Center, and on the Mac's
+Apartment Control puts the home on the iPhone's Home Screen, Lock Screen and Control Center, and on the Mac's
 desktop and Control Center. Every widget is live: tap a lamp, a scene or an air conditioner and it switches
 without opening the app.
 
@@ -67,10 +67,10 @@ widget tap ─▶ AppIntent ─▶ HomeSnapshot.apply ─▶ home.json (at once)
 ## Build and try
 
 - **iPhone simulator:** `./scripts/ios-sim.sh`, then long-press the Home Screen → **Edit** → **Add Widget** →
-  House Control. The script signs the simulator build with your Apple Development certificate when there is one:
+  Apartment Control. The script signs the simulator build with your Apple Development certificate when there is one:
   the simulator offers lamps, rooms and ACs to pick only for an app signed with a team.
 - **Mac:** `CODESIGN_IDENTITY="Apple Development: …" ./scripts/build-app.sh`, open the app, then right-click the
-  desktop → **Edit Widgets…** → House Control. `SKIP_WIDGETS=1` builds the app without them.
+  desktop → **Edit Widgets…** → Apartment Control. `SKIP_WIDGETS=1` builds the app without them.
 - **Stills of every widget**, without WidgetKit: `cd widgets && swift run render-widgets` (writes PNGs from
   `Resources/sample-home.json`; pass a snapshot to draw another home, `--size mac` for the desktop sizes).
   `node widgets/make-sample.mjs` regenerates the sample from the demo apartment.

@@ -1,12 +1,12 @@
 # Builds the Mac app on GitHub's machines and attaches the disk image to a draft release.
 #
 #   Push a tag v<version> (the version in ios/Config/Base.xcconfig) → a draft release with
-#   HouseControl-<version>.dmg and its SHA-256 appears under Releases; publish it by hand.
+#   ApartmentControl-<version>.dmg and its SHA-256 appears under Releases; publish it by hand.
 #   Run it from the Actions tab instead → the same image as a downloadable artifact, no release.
 #
 # The app is signed ad hoc, not with a Developer ID, so no personal certificate ever leaves a
 # developer's Mac. Instead, on a public repository every image carries a build provenance
-# attestation: `gh attestation verify <dmg> --repo 0xProbabillity/house-control` proves it was
+# attestation: `gh attestation verify <dmg> --repo mahesh9403/Apartment-control` proves it was
 # built here, by this workflow, from the tagged commit.
 
 name: Release
@@ -73,16 +73,16 @@ jobs:
         if: github.event.repository.visibility == 'public'
         uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
         with:
-          subject-path: build/HouseControl-${{ steps.version.outputs.version }}.dmg
+          subject-path: build/ApartmentControl-${{ steps.version.outputs.version }}.dmg
 
       - name: Keep the image (manual runs)
         if: github.ref_type != 'tag'
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          name: HouseControl-${{ steps.version.outputs.version }}
+          name: ApartmentControl-${{ steps.version.outputs.version }}
           path: |
-            build/HouseControl-${{ steps.version.outputs.version }}.dmg
-            build/HouseControl-${{ steps.version.outputs.version }}.dmg.sha256
+            build/ApartmentControl-${{ steps.version.outputs.version }}.dmg
+            build/ApartmentControl-${{ steps.version.outputs.version }}.dmg.sha256
           retention-days: 7
           if-no-files-found: error
 
@@ -104,5 +104,5 @@ jobs:
             notes=(--generate-notes)
           fi
           gh release create "$GITHUB_REF_NAME" --draft --verify-tag \
-            --title "House Control $VERSION" "${notes[@]}" \
-            "build/HouseControl-$VERSION.dmg" "build/HouseControl-$VERSION.dmg.sha256"
+            --title "Apartment Control $VERSION" "${notes[@]}" \
+            "build/ApartmentControl-$VERSION.dmg" "build/ApartmentControl-$VERSION.dmg.sha256"

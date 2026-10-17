@@ -120,7 +120,7 @@ final class AgentController: NSObject, AgentBackend {
         phase = .live
         startedAt = Date()
         scheduleAutoStop()
-        log(AgentActivity(date: Date(), client: "House Control", title: reach == .local ? "Started on this Mac" : "Link is live", ok: true, quiet: false))
+        log(AgentActivity(date: Date(), client: "Apartment Control", title: reach == .local ? "Started on this Mac" : "Link is live", ok: true, quiet: false))
         onLiveChange?(true)
         push()
         // HOUSE_AGENT_LINK_FILE=<path> writes the live link there, for scripted tests.
@@ -151,7 +151,7 @@ final class AgentController: NSObject, AgentBackend {
         phase = .off
         gateway.rotateToken() // the old link is dead even if the same address came back
         if wasLive {
-            log(AgentActivity(date: Date(), client: "House Control", title: "\(reason) — the link no longer works", ok: true, quiet: false))
+            log(AgentActivity(date: Date(), client: "Apartment Control", title: "\(reason) — the link no longer works", ok: true, quiet: false))
             onLiveChange?(false)
         }
         push()
@@ -183,7 +183,7 @@ final class AgentController: NSObject, AgentBackend {
                                                              arguments: ["request": request], contentWorld: .page)
         guard let text = raw as? String, let data = text.data(using: .utf8),
               var result = try JSONSerialization.jsonObject(with: data) as? [String: Any] else {
-            throw AgentError("House Control did not understand the request.")
+            throw AgentError("Apartment Control did not understand the request.")
         }
         if let plan = result["savePlan"] as? [String: Any] {
             result["savePlan"] = nil
@@ -214,7 +214,7 @@ final class AgentController: NSObject, AgentBackend {
             if host.isReady { return host }
             try await Task.sleep(nanoseconds: 100_000_000)
         }
-        throw AgentError("House Control is busy loading the home. Try again in a moment.")
+        throw AgentError("Apartment Control is busy loading the home. Try again in a moment.")
     }
 
     private func savePlan(_ plan: [String: Any]) throws {
@@ -239,7 +239,7 @@ final class AgentController: NSObject, AgentBackend {
             plans.select(last.active)
         }
         reloadAll()
-        log(AgentActivity(date: Date(), client: "House Control", title: "Undid the last floor plan change", ok: true, quiet: false))
+        log(AgentActivity(date: Date(), client: "Apartment Control", title: "Undid the last floor plan change", ok: true, quiet: false))
     }
 
     struct AgentError: LocalizedError {
@@ -291,7 +291,7 @@ final class AgentController: NSObject, AgentBackend {
                 NSWorkspace.shared.open(url)
             }
         case "agent.undo":
-            do { try undo() } catch { log(AgentActivity(date: Date(), client: "House Control", title: error.localizedDescription, ok: false, quiet: false)) }
+            do { try undo() } catch { log(AgentActivity(date: Date(), client: "Apartment Control", title: error.localizedDescription, ok: false, quiet: false)) }
             push()
         case "agent.install":
             guard !tunnel.isDownloading else { return }

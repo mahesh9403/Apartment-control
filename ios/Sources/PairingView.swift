@@ -3,7 +3,7 @@ import AVFoundation
 import VisionKit
 import HouseCore
 
-/// Pairs this iPhone with House Control on a Mac: scan the code the Mac shows, or paste
+/// Pairs this iPhone with Apartment Control on a Mac: scan the code the Mac shows, or paste
 /// the pairing link copied there (the clipboard travels between your devices by itself).
 struct PairingView: View {
     @Environment(AppModel.self) private var model
@@ -23,7 +23,7 @@ struct PairingView: View {
                     steps
                     viewfinder
                     if rejected {
-                        Label("That is not a House Control pairing code.", systemImage: "exclamationmark.triangle.fill")
+                        Label("That is not an Apartment Control pairing code.", systemImage: "exclamationmark.triangle.fill")
                             .font(.system(size: 14, weight: .medium))
                             .foregroundStyle(Theme.red)
                             .transition(.opacity)
@@ -51,7 +51,7 @@ struct PairingView: View {
     private var steps: some View {
         Card(padding: 16) {
             VStack(alignment: .leading, spacing: 14) {
-                step(1, "On your Mac, right-click the House Control icon in the menu bar.")
+                step(1, "On your Mac, right-click the Apartment Control icon in the menu bar.")
                 step(2, "Choose **Pair iPhone…** — a code appears.")
                 step(3, "Point this iPhone at the code. Both devices need to be on the same Wi-Fi.")
             }
@@ -83,7 +83,7 @@ struct PairingView: View {
                 ViewfinderCorners().stroke(.white.opacity(0.9), style: StrokeStyle(lineWidth: 4, lineCap: .round)).padding(46)
             case .denied:
                 placeholder("camera.fill", "Camera access is off",
-                            "Allow the camera for House Control in Settings, or paste the pairing link below.")
+                            "Allow the camera for Apartment Control in Settings, or paste the pairing link below.")
             case .unavailable:
                 placeholder("qrcode.viewfinder", "No camera here",
                             "Use Copy Pairing Link on the Mac and paste it below.")

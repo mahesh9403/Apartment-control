@@ -49,7 +49,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             button.target = self
             button.action = #selector(statusItemClicked)
             button.sendAction(on: [.leftMouseUp, .rightMouseUp])
-            button.toolTip = "House Control"
+            button.toolTip = "Apartment Control"
         }
 
         let host = WebHost(mode: "panel", transparent: true) { [unowned self] in self.bootPayload() }
@@ -105,7 +105,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool { false }
 
     func applicationWillTerminate(_ notification: Notification) {
-        agent.stop(reason: "House Control quit")
+        agent.stop(reason: "Apartment Control quit")
     }
 
     /// `kill`, a logout or Ctrl-C end the app without applicationWillTerminate: the AI
@@ -116,7 +116,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             signal(sig, SIG_IGN)
             let source = DispatchSource.makeSignalSource(signal: sig, queue: .main)
             source.setEventHandler { [weak self] in
-                MainActor.assumeIsolated { self?.agent.stop(reason: "House Control quit") }
+                MainActor.assumeIsolated { self?.agent.stop(reason: "Apartment Control quit") }
                 exit(0)
             }
             source.resume()
@@ -127,7 +127,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     // MARK: - Status item
 
     private func symbol(_ name: String) -> NSImage? {
-        let image = NSImage(systemSymbolName: name, accessibilityDescription: "House Control")?
+        let image = NSImage(systemSymbolName: name, accessibilityDescription: "Apartment Control")?
             .withSymbolConfiguration(NSImage.SymbolConfiguration(pointSize: 14, weight: .medium))
         image?.isTemplate = true
         return image
@@ -196,7 +196,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             menu.addItem(.separator())
             menu.addItem(aboutMenuItem())
             menu.addItem(withTitle: "Reload", action: #selector(reloadAll), keyEquivalent: "").target = self
-            menu.addItem(withTitle: "Quit House Control", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
+            menu.addItem(withTitle: "Quit Apartment Control", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
             statusItem.menu = menu
             statusItem.button?.performClick(nil)
             statusItem.menu = nil
@@ -275,11 +275,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         NSWorkspace.shared.activateFileViewerSelecting([url])
     }
 
-    /// "About House Control": the version, the website and where to find the developer.
+    /// "About Apartment Control": the version, the website and where to find the developer.
     private func aboutMenuItem() -> NSMenuItem {
         let about = NSMenu()
         let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
-        about.addItem(withTitle: "House Control\(version.map { " \($0)" } ?? "")", action: nil, keyEquivalent: "")
+        about.addItem(withTitle: "Apartment Control\(version.map { " \($0)" } ?? "")", action: nil, keyEquivalent: "")
         about.addItem(.separator())
         let links: [(String, String, URL)] = [
             ("Website", "globe", About.website),
@@ -297,7 +297,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             item.representedObject = url
             item.image = NSImage(systemSymbolName: symbol, accessibilityDescription: nil)
         }
-        let item = NSMenuItem(title: "About House Control", action: nil, keyEquivalent: "")
+        let item = NSMenuItem(title: "About Apartment Control", action: nil, keyEquivalent: "")
         item.submenu = about
         return item
     }
@@ -543,15 +543,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func setOpenAtLogin(_ on: Bool) {
         if on, LoginItem.isTemporaryCopy {
-            alert("Move House Control to Applications first",
+            alert("Move Apartment Control to Applications first",
                   "It is running from the disk image or from a temporary copy of the download, which is gone after a restart. "
-                  + "Drag House Control into the Applications folder, open it from there, then turn on Open at Login.")
+                  + "Drag Apartment Control into the Applications folder, open it from there, then turn on Open at Login.")
             return
         }
         do {
             try LoginItem.set(on)
         } catch {
-            alert(on ? "Could not add House Control to Login Items" : "Could not remove House Control from Login Items",
+            alert(on ? "Could not add Apartment Control to Login Items" : "Could not remove Apartment Control from Login Items",
                   "\(error.localizedDescription)\n\nYou can change it in System Settings → General → Login Items.")
         }
         panel.host.call("openAtLogin", LoginItem.state.rawValue)
@@ -604,7 +604,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         do {
             try plans.saveCustom(data: data, select: first || plans.activePlan == "custom")
         } catch {
-            NSLog("House Control: could not store the plan from %@: %@", phone, error.localizedDescription)
+            NSLog("Apartment Control: could not store the plan from %@: %@", phone, error.localizedDescription)
             return
         }
         reloadLinks()
@@ -631,7 +631,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             pairingWindow = window
         }
         pairingWindow?.show(code: pairing.link,
-                            headline: "Scan with House Control on your iPhone",
+                            headline: "Scan with Apartment Control on your iPhone",
                             detail: "On the iPhone open Settings → Pair with Mac. Both devices must be on the same Wi-Fi. "
                                 + "Your floor plan, device links and connections stay the same on both, whichever one you edit; "
                             + "they travel straight between them, encrypted with the key in this code.")
@@ -657,7 +657,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             pairingWindow?.setStatus("Waiting for an iPhone…", active: false)
         } else {
             // Until macOS lets the app use the local network, no phone can find this Mac.
-            pairingWindow?.setStatus("Allow Local Network access for House Control in System Settings → Privacy & Security",
+            pairingWindow?.setStatus("Allow Local Network access for Apartment Control in System Settings → Privacy & Security",
                                      active: false)
         }
     }
@@ -691,7 +691,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         loginWindow?.show(code: content,
                           headline: "Scan with the Smart Life app on \(device)",
                           detail: "Switch to Smart Life on the iPhone, tap the scanner on its Home tab and confirm the login. "
-                              + "Then return to House Control: this window closes once the iPhone is signed in.")
+                              + "Then return to Apartment Control: this window closes once the iPhone is signed in.")
         loginWindow?.setStatus("Requested by \(device)", active: true)
     }
 
@@ -701,7 +701,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let main = NSMenu()
         let appItem = NSMenuItem()
         let appMenu = NSMenu()
-        appMenu.addItem(withTitle: "Quit House Control", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
+        appMenu.addItem(withTitle: "Quit Apartment Control", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
         appItem.submenu = appMenu
         main.addItem(appItem)
 

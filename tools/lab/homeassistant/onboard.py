@@ -41,7 +41,7 @@ async def main(url: str, out: pathlib.Path) -> None:
             await ws.send_json({"type": "auth", "access_token": access})
             await ws.receive_json()  # auth_ok
             await ws.send_json({"id": 1, "type": "auth/long_lived_access_token",
-                                "client_name": "House Control lab", "lifespan": 3650})
+                                "client_name": "Apartment Control lab", "lifespan": 3650})
             token = (await ws.receive_json())["result"]
 
     out.write_text(token + "\n")

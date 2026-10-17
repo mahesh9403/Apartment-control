@@ -27,7 +27,7 @@ targets:
     info:
       path: Config/Info-macOS.plist
       properties:
-        CFBundleDisplayName: House Control
+        CFBundleDisplayName: Apartment Control
         CFBundleShortVersionString: $(MARKETING_VERSION)
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         HouseAppGroup: $(HOUSE_APP_GROUP)

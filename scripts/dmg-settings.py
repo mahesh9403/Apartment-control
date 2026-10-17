@@ -1,4 +1,4 @@
-# Layout of the House Control disk image, for dmgbuild (scripts/release-mac.sh runs it).
+# Layout of the Apartment Control disk image, for dmgbuild (scripts/release-mac.sh runs it).
 # The positions match the arrow drawn by scripts/make-dmg-background.swift.
 import os
 

@@ -188,7 +188,7 @@ async function boot() {
           icon: openAtLogin === 'on' ? icon('check', 16, 2.4) : null,
           action: () => post('setOpenAtLogin', { on: openAtLogin !== 'on' }),
         },
-        { label: 'Quit House Control', action: () => post('quit') });
+        { label: 'Quit Apartment Control', action: () => post('quit') });
     }
     openMenu(panel.anchorMenu, anchor, items);
   }

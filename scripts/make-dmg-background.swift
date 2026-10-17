@@ -62,7 +62,7 @@ func render(scale: CGFloat) -> NSBitmapImageRep {
     ctx.scaleBy(x: 1, y: -1)
     let style = NSMutableParagraphStyle()
     style.alignment = .center
-    let caption = NSAttributedString(string: "Drag House Control into Applications", attributes: [
+    let caption = NSAttributedString(string: "Drag Apartment Control into Applications", attributes: [
         .font: NSFont.systemFont(ofSize: 15, weight: .semibold),
         .foregroundColor: NSColor(red: 0.10, green: 0.11, blue: 0.16, alpha: 0.9),
         .paragraphStyle: style,

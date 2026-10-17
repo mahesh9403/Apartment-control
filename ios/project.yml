@@ -39,7 +39,7 @@ targets:
     info:
       path: Config/Info.plist
       properties:
-        CFBundleDisplayName: House Control
+        CFBundleDisplayName: Apartment Control
         HouseAppGroup: $(HOUSE_APP_GROUP)
         CFBundleShortVersionString: $(MARKETING_VERSION)
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
@@ -50,13 +50,13 @@ targets:
         UIRequiresFullScreen: true
         UIUserInterfaceStyle: Dark
         ITSAppUsesNonExemptEncryption: false
-        NSLocalNetworkUsageDescription: House Control finds your Home Assistant and Hue Bridge on this Wi-Fi network, and your Mac, to keep your floor plan the same on both.
+        NSLocalNetworkUsageDescription: Apartment Control finds your Home Assistant and Hue Bridge on this Wi-Fi network, and your Mac, to keep your floor plan the same on both.
         NSBonjourServices: [_housecontrol._tcp, _hue._tcp, _home-assistant._tcp]
-        NSHomeKitUsageDescription: House Control shows the lamps, air conditioners and thermometers of your homes in its 3D view and switches them for you.
+        NSHomeKitUsageDescription: Apartment Control shows the lamps, air conditioners and thermometers of your homes in its 3D view and switches them for you.
         # Home Assistant answers plain HTTP on the local network, the Hue Bridge HTTPS with its own certificate.
         NSAppTransportSecurity:
           NSAllowsLocalNetworking: true
-        NSCameraUsageDescription: The camera reads the pairing code shown by House Control on your Mac.
+        NSCameraUsageDescription: The camera reads the pairing code shown by Apartment Control on your Mac.
         CFBundleURLTypes:
           - CFBundleURLName: io.github.0xprobabillity.HouseControl.pair
             CFBundleURLSchemes: [housecontrol]
@@ -92,7 +92,7 @@ targets:
     info:
       path: ../widgets/Config/Info-iOS.plist
       properties:
-        CFBundleDisplayName: House Control
+        CFBundleDisplayName: Apartment Control
         CFBundleShortVersionString: $(MARKETING_VERSION)
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         HouseAppGroup: $(HOUSE_APP_GROUP)

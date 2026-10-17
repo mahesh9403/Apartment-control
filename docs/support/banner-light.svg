@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1280" height="360" viewBox="0 0 1280 360" role="img" aria-label="Support House Control with crypto: Bitcoin, Ethereum, Base, BNB Chain, Arbitrum, TON and TRON">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1280" height="360" viewBox="0 0 1280 360" role="img" aria-label="Support Apartment Control with crypto: Bitcoin, Ethereum, Base, BNB Chain, Arbitrum, TON and TRON">
 <defs>
 <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#f6f8fa"/></linearGradient>
 <linearGradient id="ac" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#f59e0b"/><stop offset="0.5" stop-color="#ec4899"/><stop offset="1" stop-color="#38bdf8"/></linearGradient>
@@ -28,7 +28,7 @@ text{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans',Helveti
 <rect x="0" y="0" width="1280" height="4" fill="url(#ac)"/>
 <g class="heart"><path transform="translate(94 80) scale(0.92)" fill="url(#ac)" d="M12 21.6 10.6 20.3C5.4 15.6 2 12.5 2 8.6 2 5.5 4.4 3 7.5 3c1.7 0 3.4.8 4.5 2.1C13.1 3.8 14.8 3 16.5 3 19.6 3 22 5.5 22 8.6c0 3.9-3.4 7-8.6 11.7z"/></g>
 <text x="126" y="98" class="s" style="font-size:17px;font-weight:600;letter-spacing:2px">FREE · OPEN SOURCE · INDEPENDENT</text>
-<text x="94" y="166" class="h">Support House Control</text>
+<text x="94" y="166" class="h">Support Apartment Control</text>
 <text x="96" y="210" class="s">If it makes your home a little nicer, a tip keeps it growing.</text>
 <rect x="96" y="248" width="70" height="34" rx="17" fill="#eef1f4" stroke="#d1d9e0"/><text x="131" y="270" text-anchor="middle" class="p">No ads</text><rect x="175.6" y="248" width="113" height="34" rx="17" fill="#eef1f4" stroke="#d1d9e0"/><text x="232" y="270" text-anchor="middle" class="p">No accounts</text><rect x="298.2" y="248" width="121" height="34" rx="17" fill="#eef1f4" stroke="#d1d9e0"/><text x="359" y="270" text-anchor="middle" class="p">No telemetry</text><rect x="429.4" y="248" width="121" height="34" rx="17" fill="#eef1f4" stroke="#d1d9e0"/><text x="490" y="270" text-anchor="middle" class="p">MIT licensed</text>
 <circle class="pulse" cx="1010" cy="180" r="150" fill="url(#glow)"/>

@@ -1,6 +1,6 @@
 # Connecting real devices
 
-House Control links the lamps and air conditioners of your floor plan to real devices on five platforms.
+Apartment Control links the lamps and air conditioners of your floor plan to real devices on five platforms.
 One home can mix them: Hue lamps, a Home Assistant air conditioner and a Smart Life plug side by side.
 Everything you do not link stays simulated.
 
@@ -25,14 +25,14 @@ device separately: its session cannot be shared, Tuya renews it as it is used.
 ## LG ThinQ Connect
 
 The Mac app can talk directly to LG ThinQ Connect. Home Assistant, Apple Home and a local VM are not required.
-The first implementation is REST-based and polls linked ACs through the existing House Control refresh loop; MQTT push
+The first implementation is REST-based and polls linked ACs through the existing Apartment Control refresh loop; MQTT push
 is intentionally not required.
 
 1. Create an LG ThinQ Connect Personal Access Token at [connect-pat.lgthinq.com](https://connect-pat.lgthinq.com) with permission to read and control your appliances.
-2. In House Control: **Connections → LG ThinQ**. Enter `IN` for an India-registered LG ThinQ account and paste the PAT.
+2. In Apartment Control: **Connections → LG ThinQ**. Enter `IN` for an India-registered LG ThinQ account and paste the PAT.
 3. Refresh the device list, select your AC, and link it under **Real device**.
 
-For India, House Control sends `x-country: IN` to LG's KIC endpoint (`api-kic.lgthinq.com`). The service filters the
+For India, Apartment Control sends `x-country: IN` to LG's KIC endpoint (`api-kic.lgthinq.com`). The service filters the
 account's device list to air conditioners, reads each model's profile before advertising modes, fan speeds and
 temperature limits, and refuses unsupported controls rather than guessing. Power, mode, target temperature, fan speed,
 swing and energy saving are supported when the model profile exposes them. Sleep timers are not part of the first
@@ -47,27 +47,27 @@ Zigbee and Z-Wave sticks, Matter, Google Nest, Xiaomi, Aqara, IKEA, Sonoff, Smar
 Tuya — so connecting it brings all of them in at once.
 
 1. In Home Assistant, open your profile (your name at the bottom left) → **Security** → **Long-lived access
-   tokens** → **Create token**. Name it "House Control" and copy it.
-2. In House Control: **Connections → Home Assistant**. Servers on your network are found by themselves — press
+   tokens** → **Create token**. Name it "Apartment Control" and copy it.
+2. In Apartment Control: **Connections → Home Assistant**. Servers on your network are found by themselves — press
    **Use**, or type the address (`http://homeassistant.local:8123`). Paste the token and press **Connect**.
 
-| Home Assistant | In House Control |
+| Home Assistant | In Apartment Control |
 | --- | --- |
 | `light.*` | A lamp: on/off, brightness, white temperature and colour as its colour modes allow |
 | `switch.*` | A lamp on a plug: on/off |
 | `climate.*` | An air conditioner: power, target, the modes it has (`cool`, `heat`, `dry`, `fan_only`, `auto`/`heat_cool`), its fan speeds, swing, `eco` and `sleep` presets |
 | `sensor.*` with `device_class: temperature` | A thermometer for an AC's room |
 
-Areas become the room shown next to each device. House Control subscribes to Home Assistant's events, so a
+Areas become the room shown next to each device. Apartment Control subscribes to Home Assistant's events, so a
 lamp switched from a wall switch or an automation shows up in the panel within a second.
 
 **Bring your Tuya devices in without a developer account:** in Home Assistant, **Settings → Devices & services →
 Add integration → Tuya**, and sign in with the User Code and QR code from the Smart Life app — the same sign-in
-House Control uses.
+Apartment Control uses.
 
 ## Philips Hue
 
-1. In House Control: **Connections → Philips Hue**. Bridges on your network are found by themselves (or type the
+1. In Apartment Control: **Connections → Philips Hue**. Bridges on your network are found by themselves (or type the
    address shown in the Hue app under **Settings → My Hue system**).
 2. Press **Pair**, then the round button on top of the bridge within a minute.
 
@@ -75,12 +75,12 @@ Lamps, Hue Play bars, light strips and smart plugs appear with what each can do;
 motion sensors can serve as an AC's room temperature. The bridge's event stream makes changes from the Hue app
 show up at once. No Hue account or internet connection is involved.
 
-The bridge's certificate is self-signed. House Control trusts it the first time and remembers its fingerprint,
+The bridge's certificate is self-signed. Apartment Control trusts it the first time and remembers its fingerprint,
 so a different device answering at that address later is refused.
 
 ## Apple Home
 
-Apple offers HomeKit to iPhone and iPad apps, and to Mac apps only through the Mac App Store. House Control is a
+Apple offers HomeKit to iPhone and iPad apps, and to Mac apps only through the Mac App Store. Apartment Control is a
 download, so on the Mac it can list Apple Home devices but not switch them:
 
 1. Pair your iPhone with the Mac (right-click the menu bar icon → **Pair iPhone…**).
@@ -91,7 +91,7 @@ download, so on the Mac it can list Apple Home devices but not switch them:
 The iPhone app then switches them, including Matter accessories added to Apple Home. On the Mac they show what
 you set but stay simulated.
 
-| HomeKit service | In House Control |
+| HomeKit service | In Apartment Control |
 | --- | --- |
 | Lightbulb | A lamp: on/off, brightness, colour temperature, hue and saturation |
 | Outlet, Switch | A lamp on a plug |
@@ -105,7 +105,7 @@ Smart Life devices are not HomeKit accessories, but there are three free ways to
 
 - **Home Assistant's HomeKit Bridge** (recommended): add the Tuya integration as above, then
   **Add integration → HomeKit Bridge**, choose the domains (lights, switches, climate) and scan the code it
-  shows with the Home app. Every Tuya device appears in Apple Home — and in House Control's iPhone app.
+  shows with the Home app. Every Tuya device appears in Apple Home — and in Apartment Control's iPhone app.
 - **Homebridge** with a Tuya plugin, if you already run Homebridge.
 - **Matter**: newer Tuya devices and hubs that support Matter can be added to Apple Home directly
   (**+ → Add Accessory** and scan their Matter code), and shared with other apps at the same time.

@@ -130,7 +130,7 @@ struct HomeAssistantView: View {
                 VStack(alignment: .leading, spacing: 10) {
                     Label("Where is the token?", systemImage: "questionmark.circle")
                         .font(.system(size: 15, weight: .semibold)).foregroundStyle(Theme.text)
-                    Text("In Home Assistant open your profile (your name at the bottom of the sidebar) → **Security**. Under **Long-lived access tokens** tap **Create token**, name it “House Control” and copy it.")
+                    Text("In Home Assistant open your profile (your name at the bottom of the sidebar) → **Security**. Under **Long-lived access tokens** tap **Create token**, name it “Apartment Control” and copy it.")
                         .font(.system(size: 14)).foregroundStyle(Theme.muted)
                         .fixedSize(horizontal: false, vertical: true)
                 }

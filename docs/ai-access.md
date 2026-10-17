@@ -4,7 +4,7 @@ Give ChatGPT, Claude or any other AI assistant a private link to your home. It c
 dim the lights, run the air conditioners and scenes — and change the 3D model itself: send it photos of your living
 room and ask it to rebuild the room, or tell it you moved the sofa.
 
-There is no House Control server and no account. Your Mac answers the assistant itself, through a tunnel that exists
+There is no Apartment Control server and no account. Your Mac answers the assistant itself, through a tunnel that exists
 only while AI Access is on.
 
 <p align="center">
@@ -26,10 +26,10 @@ the island at the notch show each change with sparkles.
 ## How it works
 
 ```
-assistant ──HTTPS──▶ Cloudflare quick tunnel ──▶ cloudflared on your Mac ──▶ 127.0.0.1 (House Control) ──▶ your devices
+  assistant ──HTTPS──▶ Cloudflare quick tunnel ──▶ cloudflared on your Mac ──▶ 127.0.0.1 (Apartment Control) ──▶ your devices
 ```
 
-- House Control listens on the loopback interface only (port 7419, or any free one). Nothing on your network sees it.
+- Apartment Control listens on the loopback interface only (port 7419, or any free one). Nothing on your network sees it.
 - To be reachable from ChatGPT's or Claude's servers, the Mac opens a free
   [Cloudflare Quick Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/do-more-with-tunnels/trycloudflare/):
   a random `https://….trycloudflare.com` address that exists while `cloudflared` runs. No Cloudflare account is needed.
@@ -46,25 +46,25 @@ assistant ──HTTPS──▶ Cloudflare quick tunnel ──▶ cloudflared on 
 
 Press **Copy for a chat** and paste it into ChatGPT, Claude, Gemini, Perplexity or Grok together with what you want:
 
-> You can control my home with House Control. Open this private link and follow its instructions: https://….trycloudflare.com/k3Vb…
+> You can control my home with Apartment Control. Open this private link and follow its instructions: https://….trycloudflare.com/k3Vb…
 > Dim the living room to 30% and cool the bedroom to 22°.
 
 The link opens a guide written for AI assistants: the rules, the state of every device, and a ready-made **action link**
 for each thing it can do (`…/do/light/living.main/brightness/30`). Opening an action link performs it and answers
 with the new state, so even an assistant that can only browse can run the home.
 
-Changing the 3D model needs more than opening links. For that, connect House Control as a connector:
+Changing the 3D model needs more than opening links. For that, connect Apartment Control as a connector:
 
 ### Claude
 
-**Settings → Connectors → Add custom connector**, name it *House Control*, and paste the **MCP address** from the
+**Settings → Connectors → Add custom connector**, name it *Apartment Control*, and paste the **MCP address** from the
 **Claude** tab (`https://….trycloudflare.com/<key>/mcp`). In a chat, enable it from the tools menu. Attach photos and ask
 *"here is my living room — rebuild it in 3D"*.
 
 ### ChatGPT
 
 **Settings → Apps & Connectors → Advanced → Developer mode**, then **Create** a connector with the MCP address and
-**No authentication**. In a chat, pick Developer mode and add House Control.
+**No authentication**. In a chat, pick Developer mode and add Apartment Control.
 
 ### Claude Code, Cursor and other MCP clients
 

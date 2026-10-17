@@ -1,13 +1,13 @@
 # Changelog
 
-What changed in each release of House Control. The Mac app is on
-[Releases](https://github.com/0xProbabillity/house-control/releases); the iPhone app is on TestFlight.
+What changed in each release of Apartment Control. The Mac app is on
+[Releases](https://github.com/mahesh9403/Apartment-control/releases); the iPhone app is on TestFlight.
 
 ## Unreleased
 
 ### Mac
 
-- **Open at Login**, in the menu bar icon's right-click menu and in the panel's gear menu: House Control starts with
+- **Open at Login**, in the menu bar icon's right-click menu and in the panel's gear menu: Apartment Control starts with
   your Mac. It is the app's entry under System Settings → General → Login Items, so it can be switched off there too.
   Run from the disk image, the app asks to be moved to Applications first; moved there later, the login item follows it.
 
@@ -21,7 +21,7 @@ What changed in each release of House Control. The Mac app is on
 - **Quick actions** on the iPhone's app icon, chosen in Settings.
 - Every widget is live: tap a lamp, a scene or an AC and it switches without opening the app. On the Mac the app in
   the menu bar carries it out; on the iPhone the widget talks to Home Assistant, Hue and Smart Life itself.
-  See [docs/widgets.md](https://github.com/0xProbabillity/house-control/blob/main/docs/widgets.md).
+  See [docs/widgets.md](https://github.com/mahesh9403/Apartment-control/blob/main/docs/widgets.md).
 
 ### An iPhone app that needs no Mac
 
@@ -48,8 +48,8 @@ What changed in each release of House Control. The Mac app is on
 - The editor only offers the platforms the app has.
 - A privacy manifest for the widgets.
 - From this release on, every Mac disk image carries a build provenance attestation:
-  `gh attestation verify HouseControl-1.0.0.dmg --repo 0xProbabillity/house-control`
-  ([#5](https://github.com/0xProbabillity/house-control/issues/5)).
+  `gh attestation verify ApartmentControl-1.0.0.dmg --repo mahesh9403/Apartment-control`
+  ([#5](https://github.com/mahesh9403/Apartment-control/issues/5)).
 
 ### Fixed
 

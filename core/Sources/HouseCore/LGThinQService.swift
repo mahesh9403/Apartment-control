@@ -31,7 +31,7 @@ public struct LGThinQURLSessionTransport: LGThinQTransport {
 /// Native LG ThinQ Connect support for air conditioners.
 ///
 /// This uses LG's documented PAT-based REST API directly. It intentionally starts with
-/// polling instead of MQTT: the existing House Control hub already polls linked services,
+/// polling instead of MQTT: the existing Apartment Control hub already polls linked services,
 /// and no cloud-side client certificate is needed for the first usable slice.
 @MainActor
 public final class LGThinQService: DeviceService {
@@ -116,7 +116,7 @@ public final class LGThinQService: DeviceService {
         vault.write(encoded)
         guard vault.read() == encoded else {
             config = nil
-            throw ServiceFailure("LG ThinQ connected, but House Control could not save the credential securely.")
+            throw ServiceFailure("LG ThinQ connected, but Apartment Control could not save the credential securely.")
         }
     }
 

@@ -121,7 +121,7 @@ public final class HomeKitService: NSObject, DeviceService {
     public func devices() async throws -> [ServiceDevice] {
         guard manager != nil else { throw ServiceFailure("Turn on Apple Home first") }
         await untilReady()
-        guard authorized else { throw ServiceFailure("House Control may not use your Home data. Allow it in Settings → Privacy & Security → HomeKit.") }
+        guard authorized else { throw ServiceFailure("Apartment Control may not use your Home data. Allow it in Settings → Privacy & Security → HomeKit.") }
         let several = (manager?.homes.count ?? 0) > 1
         return entries().map { entry in
             let characteristics = Set(names(entry.service).keys)

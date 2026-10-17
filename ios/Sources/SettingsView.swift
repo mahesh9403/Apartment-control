@@ -102,7 +102,7 @@ struct SettingsView: View {
                     .buttonStyle(SecondaryButtonStyle())
             }
             if !model.hasCustomPlan {
-                footnote("Make your own home here, or pair with House Control on a Mac and the one drawn there arrives by itself.")
+                footnote("Make your own home here, or pair with Apartment Control on a Mac and the one drawn there arrives by itself.")
             }
         }
     }
@@ -227,7 +227,7 @@ struct SettingsView: View {
                         IconBadge(symbol: "laptopcomputer.and.iphone", tint: Theme.accent)
                         VStack(alignment: .leading, spacing: 4) {
                             Text("Optional: a Mac").font(.system(size: 16.5, weight: .semibold)).foregroundStyle(Theme.text)
-                            Text("Pair with House Control on a Mac and your home — rooms, lamps, device links, connections — stays the same on both, whichever one you edit.")
+                            Text("Pair with Apartment Control on a Mac and your home — rooms, lamps, device links, connections — stays the same on both, whichever one you edit.")
                                 .font(.system(size: 14))
                                 .foregroundStyle(Theme.muted)
                                 .fixedSize(horizontal: false, vertical: true)
@@ -396,7 +396,7 @@ struct SettingsView: View {
         switch model.homeKit {
         case .off: return "Lamps, ACs and sensors from the Home app"
         case .waiting: return "Opening your homes…"
-        case .denied: return "Not allowed. Turn on House Control in Settings → Privacy → HomeKit"
+        case .denied: return "Not allowed. Turn on Apartment Control in Settings → Privacy → HomeKit"
         case .ready(let homes, let accessories):
             if homes.isEmpty { return "No homes yet. Set one up in the Home app" }
             return "\(accessories) accessor\(accessories == 1 ? "y" : "ies") · \(homes.joined(separator: ", "))"
@@ -421,8 +421,8 @@ struct SettingsView: View {
                 infoRow("Privacy", value: "No account, no analytics")
             }
             footnote(AppModel.includesSmartLife
-                ? "House Control talks to your own devices: Tuya's servers for Smart Life, your Home Assistant, your Hue Bridge, Apple Home, and your Mac. Nothing else leaves this iPhone."
-                : "House Control talks to your own devices: your Home Assistant, your Hue Bridge, Apple Home, and your Mac. Nothing else leaves this iPhone.")
+                ? "Apartment Control talks to your own devices: Tuya's servers for Smart Life, your Home Assistant, your Hue Bridge, Apple Home, and your Mac. Nothing else leaves this iPhone."
+                : "Apartment Control talks to your own devices: your Home Assistant, your Hue Bridge, Apple Home, and your Mac. Nothing else leaves this iPhone.")
             Card {
                 webRow(About.website, symbol: "globe", tint: Theme.accent, title: "Website", detail: "Features, help and the Mac app")
                 RowDivider()
@@ -435,9 +435,9 @@ struct SettingsView: View {
                 webRow(About.x, symbol: "at", tint: Theme.text, title: "\(About.developer) on X", detail: "@0xProbabillity")
                 RowDivider()
                 webRow(About.github, symbol: "chevron.left.forwardslash.chevron.right", tint: Theme.text,
-                       title: "\(About.developer) on GitHub", detail: "github.com/0xProbabillity")
+                       title: "\(About.developer) on GitHub", detail: "github.com/mahesh9403/Apartment-control")
                 RowDivider()
-                webRow(About.source, symbol: "shippingbox.fill", tint: Theme.text, title: "Source code", detail: "House Control is open source")
+                    webRow(About.source, symbol: "shippingbox.fill", tint: Theme.text, title: "Source code", detail: "Apartment Control is open source")
             }
         }
     }

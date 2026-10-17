@@ -192,7 +192,7 @@ public final class AgentGateway {
     // MARK: - Backend
 
     private func ask(_ request: [String: Any]) async throws -> [String: Any] {
-        guard let backend else { throw GatewayError("House Control is not ready yet. Try again in a moment.") }
+        guard let backend else { throw GatewayError("Apartment Control is not ready yet. Try again in a moment.") }
         var request = request
         request["permissions"] = permissions.json
         request["base"] = linkURL
@@ -231,7 +231,7 @@ public final class AgentGateway {
             record(client, "Read the guide", quiet: true)
             return .text(result["text"] as? String ?? "", type: "text/markdown; charset=utf-8")
         } catch {
-            return .text("House Control is not ready: \(error.localizedDescription)\n", status: 503)
+            return .text("Apartment Control is not ready: \(error.localizedDescription)\n", status: 503)
         }
     }
 
@@ -244,7 +244,7 @@ public final class AgentGateway {
             return .text(result["text"] as? String ?? "", status: result["status"] as? Int ?? 200,
                          type: "text/markdown; charset=utf-8")
         } catch {
-            return .text("House Control is not ready: \(error.localizedDescription)\n", status: 503)
+            return .text("Apartment Control is not ready: \(error.localizedDescription)\n", status: 503)
         }
     }
 
@@ -308,7 +308,7 @@ public final class AgentGateway {
             }
             return .json([
                 "openapi": "3.1.0",
-                "info": ["title": "House Control", "version": Self.version,
+                "info": ["title": "Apartment Control", "version": Self.version,
                          "description": "Control the lights and air conditioners of a home and edit its 3D floor plan. Read GET / (the guide) first."],
                 "servers": [["url": linkURL]],
                 "paths": paths,
@@ -347,7 +347,7 @@ public final class AgentGateway {
                 return Self.rpcResult(id, [
                     "protocolVersion": Self.protocolVersions.contains(asked) ? asked : Self.protocolVersions[0],
                     "capabilities": ["tools": ["listChanged": false]],
-                    "serverInfo": ["name": "house-control", "title": "House Control", "version": Self.version],
+                    "serverInfo": ["name": "house-control", "title": "Apartment Control", "version": Self.version],
                     "instructions": instructions,
                 ])
             case "ping":
