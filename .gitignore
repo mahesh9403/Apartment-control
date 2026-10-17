@@ -18,6 +18,7 @@ plan.json
 plan.backup*.json
 smartlife.json
 tuya.json
+lgthinq.json
 events.log
 .env
 .env.*

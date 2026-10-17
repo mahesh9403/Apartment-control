@@ -793,8 +793,7 @@ html.ios .fatal { margin: calc(env(safe-area-inset-top, 0px) + 20px) 16px 0; wid
 .stage canvas { transition: opacity 500ms ease; }
 
 @media (prefers-reduced-motion: reduce) {
-  /* The island has its own calm version (island.css): snapping it open looks broken. */
-  html:not(.mode-island) *, html:not(.mode-island) *::before, html:not(.mode-island) *::after {
+  *, *::before, *::after {
     animation-duration: 1ms !important; transition-duration: 1ms !important;
   }
 }

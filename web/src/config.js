@@ -24,6 +24,7 @@ export const isLinked = (d) => Boolean(linkOf(d));
 /** The platforms House Control can link to, in the order the editor lists them. */
 export const SERVICES = {
   smartlife: { name: 'Smart Life', short: 'Smart Life' },
+  lgthinq: { name: 'LG ThinQ', short: 'LG ThinQ' },
   homeassistant: { name: 'Home Assistant', short: 'Home Assistant' },
   hue: { name: 'Philips Hue', short: 'Hue' },
   homekit: { name: 'Apple Home', short: 'Apple Home' },

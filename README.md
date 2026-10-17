@@ -6,7 +6,7 @@
 
 <p align="center">
   Your home as a live 3D model — in the Mac's menu bar, around its notch and on your iPhone —<br>
-  controlling its lights and air conditioners through Smart Life, Home Assistant, Philips Hue and Apple Home.
+  controlling its lights and air conditioners through Smart Life, LG ThinQ, Home Assistant, Philips Hue and Apple Home.
 </p>
 
 <p align="center">
@@ -28,10 +28,8 @@
 - **Air conditioners.** Power, target temperature, mode and fan speed, with the room temperature from a real sensor if you have one.
 - **Scenes.** One tap sets every light and AC — "Cozy", "Movie", "Night", or your own.
 - **A visual editor.** Draw the rooms, drop in furniture, place lamps and ACs, and link each one to a real device.
-- **Your devices, wherever they live.** Smart Life / Tuya, Home Assistant (and the thousands of brands it runs),
+- **Your devices, wherever they live.** Smart Life / Tuya, direct LG ThinQ, Home Assistant (and the thousands of brands it runs),
   Philips Hue and Apple Home — mixed freely in one home. See [Connect real devices](#connect-real-devices).
-- **An island around the notch.** Rest the pointer on the MacBook's notch and a small live model of the home drops
-  out of it, with scenes and every device one click away. See [The island](#the-island).
 - **AI Access.** Give ChatGPT, Claude or any AI assistant a private link — or connect it over MCP — and it runs your
   lights and air conditioners, and rebuilds rooms in the 3D model from your photos. Served by your Mac; Stop ends it.
   See [AI Access](#ai-access).
@@ -128,7 +126,7 @@ There is no Dock icon and no main window: look for the house in the menu bar.
 | Do this | To get this |
 | --- | --- |
 | Click the menu bar icon | Open or close the panel |
-| Right-click the menu bar icon | Edit Home, Load Floor Plan, Reveal Plan File, Reveal Device Log, Show Island, Open at Login, Pair iPhone, AI Access, Reload, Quit |
+| Right-click the menu bar icon | Edit Home, Load Floor Plan, Reveal Plan File, Reveal Device Log, Open at Login, Pair iPhone, AI Access, Reload, Quit |
 | Click a lamp in the 3D view, or its tile | Toggle it |
 | Drag sideways across a light tile | Dim it |
 | Click the sliders icon on a light tile | Brightness, white temperature, colour |
@@ -140,26 +138,6 @@ There is no Dock icon and no main window: look for the house in the menu bar.
 The menu bar icon shows how many lights are on and the target of the running AC, for example `6 · 23°`.
 
 The gear button in the panel switches between your home and the two bundled demo plans, **Apartment** and **Studio**.
-
-## The island
-
-<p align="center">
-  <img src="docs/island.png" width="820" alt="The island, open: a 3D model of the home, scenes and devices">
-</p>
-
-A black tab grows out of the MacBook's notch. On a display without a notch it is drawn in the middle of the menu bar.
-
-| Do this | To get this |
-| --- | --- |
-| Look at it | How many lights are on, and the target of a running AC |
-| Rest the pointer on it | It springs open: the 3D model, scenes, air conditioners and lights |
-| Click a lamp in the model, or its chip | Toggle it; drag across a chip to dim |
-| Click a room in the model | Zoom in on it |
-| Move the pointer away | It closes |
-
-When something changes elsewhere — a scene picked in the panel, a lamp switched from the phone — the island
-peeks out for a moment to say what happened. It never takes the keyboard from the app you are working in.
-**Show Island** in the menu bar icon's right-click menu turns it off.
 
 ## AI Access
 
@@ -296,7 +274,7 @@ The demo plans in [`web/public/plans`](web/public/plans) are good starting point
 ## Connect real devices
 
 <p align="center">
-  <img src="docs/connections.png" width="820" alt="The editor's Connections: Smart Life, Home Assistant, Philips Hue and Apple Home">
+  <img src="docs/connections.png" width="820" alt="The editor's Connections: Smart Life, LG ThinQ, Home Assistant, Philips Hue and Apple Home">
 </p>
 
 Right-click the icon → **Edit Home… → Connections**, and connect what you have:
@@ -304,6 +282,7 @@ Right-click the icon → **Edit Home… → Connections**, and connect what you 
 | Platform | How | Details |
 | --- | --- | --- |
 | **Smart Life / Tuya** | Scan a QR code with the Smart Life app. No Tuya developer account | [docs/smart-life.md](docs/smart-life.md) |
+| **LG ThinQ** | Paste an LG ThinQ Connect Personal Access Token and country code | [docs/connections.md](docs/connections.md#lg-thinq-connect) |
 | **Home Assistant** | Found on your network by itself; paste a long-lived access token | [docs/connections.md](docs/connections.md#home-assistant) |
 | **Philips Hue** | Found on your network by itself; press the button on the bridge | [docs/connections.md](docs/connections.md#philips-hue) |
 | **Apple Home** | Allow access on your iPhone; its devices are listed on the Mac for linking | [docs/connections.md](docs/connections.md#apple-home) |
@@ -319,7 +298,7 @@ versions of Home Assistant, a Hue Bridge and a HomeKit bridge.
 
 ## Privacy
 
-House Control talks to the platforms you connect — Tuya's servers for Smart Life, your own Home Assistant,
+House Control talks to the platforms you connect — Tuya's servers for Smart Life, LG ThinQ Connect for LG appliances, your own Home Assistant,
 your Hue Bridge, Apple Home on the iPhone — and to nothing else. There is no telemetry and no backend of its own.
 The one exception is yours to switch on: [AI Access](#ai-access) opens a Cloudflare tunnel to your Mac while it is on.
 
@@ -331,6 +310,7 @@ Everything personal stays in `~/Library/Application Support/HouseControl/` on yo
 | `settings.json` | Which plan is active |
 | `smartlife.json` | The Smart Life session tokens. Readable only by you (mode `600`) |
 | `tuya.json` | Tuya Cloud project credentials, only if you use that option. Mode `600` |
+| `lgthinq.json` | Your LG ThinQ Connect country, client id and PAT. Mode `600` |
 | `homeassistant.json` | Your Home Assistant's address and access token. Mode `600` |
 | `hue.json` | Your Hue Bridge's address, the key it issued and its certificate's fingerprint. Mode `600` |
 | `homekit-devices.json` | The Apple Home devices your iPhone listed for the editor: names and ids |
@@ -347,10 +327,10 @@ Home Assistant and Hue connections the Mac shared in the Keychain.
 ## Development
 
 ```
-web/      the UI: Three.js scene, panel, island, editor, AI Access window and the AI tools (Vite, plain ES modules)
+web/      the UI: Three.js scene, panel, editor, AI Access window and the AI tools (Vite, plain ES modules)
 core/     what both apps share: plan store, device platforms, Mac ⇄ iPhone sync, the AI gateway, and the Smart Life
           and Tuya clients as a separate module (SwiftPM, with tests)
-macos/    the Mac shell: menu bar item, panel, island and editor windows (SwiftPM)
+macos/    the Mac shell: menu bar item, panel and editor windows (SwiftPM)
 ios/      the iPhone shell: SwiftUI, generated into an Xcode project by XcodeGen
 scripts/  build-app.sh, build-ios.sh and ios-sim.sh build the apps, release-mac.sh makes the .dmg,
           make-icon.swift and make-dmg-background.swift draw the icon and the disk image's window
@@ -373,7 +353,7 @@ npm run dev
 ```
 
 Then open `http://localhost:5199/`. Add `?plan=studio` for the second demo plan, `?mode=editor` for the editor,
-`?mode=island` for the island, `?mode=agent` for the AI Access window (with a simulated link), `?platform=ios` for the iPhone layout, or `?device=living.ac` to start on a
+`?mode=agent` for the AI Access window (with a simulated link), `?platform=ios` for the iPhone layout, or `?device=living.ac` to start on a
 device's sheet. Set `PORT` to use another port.
 
 Environment variables understood by the app:
@@ -388,16 +368,14 @@ Environment variables understood by the app:
 | `HOUSE_OPEN_DEVICE=<id>` | Start the panel on that light's or AC's sheet |
 | `HOUSE_PIN=1` | Keep the panel open when it loses focus |
 | `HOUSE_DOCK=1` | Show a Dock icon, so UI automation tools can see the app |
-| `HOUSE_ISLAND=0` | Run without the island (`1` forces it on) |
-| `HOUSE_ISLAND_EXPANDED=1` | Keep the island open |
 | `HOUSE_OPEN_PAIRING=1` | Open the Pair iPhone window at launch |
 | `HOUSE_COMPUTER_NAME="Studio Mac"` | The name paired iPhones see, instead of the Mac's own (screenshots) |
-| `HOUSE_SNAPSHOT_DIR=/some/folder` | Write `panel.png` and `island.png` there a few seconds after launch |
+| `HOUSE_SNAPSHOT_DIR=/some/folder` | Write `panel.png` there a few seconds after launch |
 | `HOUSE_RENDER_HIDDEN=1` | Keep drawing while the screen is locked, for unattended captures |
 | `HOUSE_OPEN_AGENT=1` | Open the AI Access window at launch (`start` also starts the link) |
 | `HOUSE_AGENT_REACH=local` | Serve AI Access on this Mac only for one run (`internet` for the tunnel) |
 | `HOUSE_AGENT_LINK_FILE=/some/file` | Write the live AI Access link there, for scripted tests |
-| `HOUSE_EVAL_DIR=/some/folder` | Scripted UI checks: a `panel.js` / `editor.js` / `island.js` dropped there runs in that page (as an async function body) and its result is written to `<mode>.json` |
+| `HOUSE_EVAL_DIR=/some/folder` | Scripted UI checks: a `panel.js` or `editor.js` dropped there runs in that page (as an async function body) and its result is written to `<mode>.json` |
 
 The iPhone app understands `HOUSE_DATA_DIR`, `HOUSE_OPEN_DEVICE`, `HOUSE_SYNC_ENDPOINT=host:port` (a Mac test instance
 without Bonjour) and `HOUSE_SCREEN=home|settings|connections|pairing|smartlife|homeassistant|hue|devices|newhome|editor|welcome`;

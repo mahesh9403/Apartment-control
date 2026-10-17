@@ -1,17 +1,18 @@
 # Connecting real devices
 
-House Control links the lamps and air conditioners of your floor plan to real devices on four platforms.
+House Control links the lamps and air conditioners of your floor plan to real devices on five platforms.
 One home can mix them: Hue lamps, a Home Assistant air conditioner and a Smart Life plug side by side.
 Everything you do not link stays simulated.
 
 | Platform | Mac | iPhone | How it connects | What you need |
 | --- | --- | --- | --- | --- |
 | **Smart Life / Tuya** | ✓ | ✓ | Tuya's cloud, signed in with a QR code | The Smart Life or Tuya Smart app — see [smart-life.md](smart-life.md) |
+| **LG ThinQ** | ✓ | — | LG ThinQ Connect's REST API | An LG ThinQ Connect PAT and the device's country code |
 | **Home Assistant** | ✓ | ✓ (from the Mac) | Your server's API, on your network | A long-lived access token |
 | **Philips Hue** | ✓ | ✓ (from the Mac) | The Hue Bridge's own API, on your network | Press the bridge's button once |
 | **Apple Home** | Linking only | ✓ | HomeKit, on the iPhone | Allow access to your Home data |
 
-On the Mac all four are set up in the editor: right-click the menu bar icon → **Edit Home… → Connections**. Then
+On the Mac all five are set up in the editor: right-click the menu bar icon → **Edit Home… → Connections**. Then
 select a lamp or an AC on the plan, choose its device under **Real device**, and press **Save & apply**. Picking a
 lamp fills in what it can do (dimming, white temperature, colour); picking an AC takes over its temperature range.
 
@@ -20,6 +21,24 @@ On the iPhone they are in **Settings**: Smart Life, Home Assistant and Philips H
 needed. When a Mac is paired, the Home Assistant and Hue connections travel between the two over their encrypted
 link, in whichever direction they were set up, so there is nothing to set up twice. Smart Life signs in on each
 device separately: its session cannot be shared, Tuya renews it as it is used.
+
+## LG ThinQ Connect
+
+The Mac app can talk directly to LG ThinQ Connect. Home Assistant, Apple Home and a local VM are not required.
+The first implementation is REST-based and polls linked ACs through the existing House Control refresh loop; MQTT push
+is intentionally not required.
+
+1. Create an LG ThinQ Connect Personal Access Token at [connect-pat.lgthinq.com](https://connect-pat.lgthinq.com) with permission to read and control your appliances.
+2. In House Control: **Connections → LG ThinQ**. Enter `IN` for an India-registered LG ThinQ account and paste the PAT.
+3. Refresh the device list, select your AC, and link it under **Real device**.
+
+For India, House Control sends `x-country: IN` to LG's KIC endpoint (`api-kic.lgthinq.com`). The service filters the
+account's device list to air conditioners, reads each model's profile before advertising modes, fan speeds and
+temperature limits, and refuses unsupported controls rather than guessing. Power, mode, target temperature, fan speed,
+swing and energy saving are supported when the model profile exposes them. Sleep timers are not part of the first
+connector.
+
+This connection is currently Mac-only. The PAT is kept in `lgthinq.json` on the Mac and is not copied to a paired iPhone.
 
 ## Home Assistant
 
@@ -112,7 +131,7 @@ emulator and a HomeKit bridge you can add to the Home app. See [tools/lab/README
 ## Privacy
 
 Credentials stay on your devices. On the Mac they are in `~/Library/Application Support/HouseControl/` (readable only by you):
-`homeassistant.json` (address and token), `hue.json` (bridge address, key and certificate fingerprint) and
+`lgthinq.json` (country, client id and PAT), `homeassistant.json` (address and token), `hue.json` (bridge address, key and certificate fingerprint) and
 `homekit-devices.json` (the device list your iPhone sent: names and HomeKit ids, no credentials).
 On the iPhone they are in the Keychain. **Disconnect** deletes them, on both when they are paired. A Mac and its
 paired iPhones exchange the Home Assistant and Hue connections over their encrypted link. Nothing goes through a server of ours — there is none.

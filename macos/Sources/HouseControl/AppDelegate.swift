@@ -12,7 +12,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var smartLife: SmartLifePlatform { hub.smartLife! }
     /// Hands the floor plan to paired iPhones on the local network.
     private lazy var sync = SyncServer(store: FileSecretStore(url: plans.directory.appendingPathComponent("sync.json")))
-    private var island: IslandController?
     private var pairingWindow: QRWindowController?
     private var loginWindow: QRWindowController?
     private var loginWindowExpiry: DispatchWorkItem?
@@ -66,17 +65,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         reloadLinks()
         host.load()
         startSync()
-        if islandEnabled { showIsland() }
         LoginItem.followMove()
 
-        // HOUSE_SNAPSHOT_DIR=<folder> writes panel.png and island.png there a few seconds
-        // after launch: a look at the UI without a screen (see HOUSE_RENDER_HIDDEN).
+        // HOUSE_SNAPSHOT_DIR=<folder> writes panel.png a few seconds after launch: a look at
+        // the UI without a screen (see HOUSE_RENDER_HIDDEN).
         if let folder = ProcessInfo.processInfo.environment["HOUSE_SNAPSHOT_DIR"] {
             let directory = URL(fileURLWithPath: folder, isDirectory: true)
             let delay = Double(ProcessInfo.processInfo.environment["HOUSE_SNAPSHOT_DELAY"] ?? "") ?? 6
             DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self] in
                 self?.panel.host.snapshot(to: directory.appendingPathComponent("panel.png"))
-                self?.island?.host.snapshot(to: directory.appendingPathComponent("island.png"))
             }
         }
         if ProcessInfo.processInfo.environment["HOUSE_OPEN_PAIRING"] != nil {
@@ -180,9 +177,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             menu.addItem(withTitle: "Reveal Plan File", action: #selector(revealPlan), keyEquivalent: "").target = self
             menu.addItem(withTitle: "Reveal Device Log", action: #selector(revealLog), keyEquivalent: "").target = self
             menu.addItem(.separator())
-            let islandItem = menu.addItem(withTitle: "Show Island", action: #selector(toggleIsland), keyEquivalent: "")
-            islandItem.target = self
-            islandItem.state = island?.isShown == true ? .on : .off
             let login = LoginItem.state
             let loginItem = menu.addItem(withTitle: login == .needsApproval ? "Open at Login — Allow in Settings…" : "Open at Login",
                                          action: #selector(toggleOpenAtLogin), keyEquivalent: "")
@@ -230,7 +224,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         boot["services"] = hub.servicesInfo
         switch ProcessInfo.processInfo.environment["HOUSE_OPEN_EDITOR"] {
         case "smartlife": boot["section"] = "service:smartlife"
-        case "homeassistant", "hue", "homekit", "connections":
+        case "homeassistant", "lgthinq", "hue", "homekit", "connections":
             let section = ProcessInfo.processInfo.environment["HOUSE_OPEN_EDITOR"]!
             boot["section"] = section == "connections" ? "connections" : "service:\(section)"
         default: break
@@ -249,7 +243,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     /// A platform was connected or disconnected: read the devices again and tell the phones.
     private func connectionsChanged() {
         reloadLinks()
-        setPolling(false) // reads at once while the panel or the island is open
+        setPolling(false) // read at once while the panel is open
         sync.broadcast()
     }
 
@@ -257,7 +251,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         reloadLinks()
         widgets.isReady = false
         panel.host.load()
-        if island?.isShown == true { island?.host.load() }
         sync.broadcast()
     }
 
@@ -354,11 +347,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 updateStatus(summary)
             }
         case "state":
-            // The panel and the island are two views of one home: what changes in one is
-            // shown by the other.
+            // The panel is the single live view on the Mac. Changes from another client are
+            // adopted without sending the state back to its source.
             var state = message
             state["type"] = nil
-            for other in [panel.host, island?.host] where other !== host { other?.call("adopt", state) }
+            if host !== panel.host { panel.host.call("adopt", state) }
         case "command":
             hub.command(message) { [weak host] in host?.reply(to: message, $0) }
         case "widgets":
@@ -478,6 +471,19 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                     host.reply(to: message, ["error": error.localizedDescription])
                 }
             }
+#if os(macOS)
+        case "lgthinq.connect":
+            Task { @MainActor in
+                do {
+                    try await hub.connectLGThinQ(country: message["country"] as? String ?? "IN",
+                                                  token: message["token"] as? String ?? "")
+                    connectionsChanged()
+                    host.reply(to: message, hub.servicesInfo)
+                } catch {
+                    host.reply(to: message, ["error": error.localizedDescription])
+                }
+            }
+#endif
         case "hue.pair":
             Task { @MainActor in
                 do {
@@ -513,7 +519,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     /// Real devices are read while there is something on screen to show them in.
     private func setPolling(_ requested: Bool) {
-        let on = requested || panel.isVisible || island?.isExpanded == true
+        let on = requested || panel.isVisible
         pollTimer?.invalidate()
         pollTimer = nil
         guard on, hub.canPoll else { return }
@@ -526,37 +532,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private func poll() {
         Task { @MainActor in
             guard let update = await hub.poll() else { return }
-            panel.host.call("applyRemote", update) // the island adopts it from the panel
+            panel.host.call("applyRemote", update)
         }
-    }
-
-    // MARK: - Island
-
-    /// On unless switched off in the menu (or by HOUSE_ISLAND=0 for one run).
-    private var islandEnabled: Bool {
-        if let forced = ProcessInfo.processInfo.environment["HOUSE_ISLAND"] { return forced != "0" }
-        return UserDefaults.standard.object(forKey: "island") as? Bool ?? true
-    }
-
-    private func showIsland() {
-        if island == nil {
-            let host = WebHost(mode: "island", transparent: true) { [unowned self] in
-                var boot = self.plans.bootPayload()
-                boot["island"] = self.island?.bootInfo ?? [:]
-                return boot
-            }
-            host.onMessage = { [weak self, unowned host] message in self?.handle(message, from: host) }
-            let controller = IslandController(host: host)
-            controller.onExpandedChange = { [weak self] open in self?.setPolling(open) }
-            island = controller
-        }
-        island?.show()
-    }
-
-    @objc private func toggleIsland() {
-        let show = island?.isShown != true
-        UserDefaults.standard.set(show, forKey: "island")
-        if show { showIsland() } else { island?.hide() }
     }
 
     // MARK: - Open at Login
@@ -633,7 +610,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         reloadLinks()
         widgets.isReady = false
         panel.host.load()
-        if island?.isShown == true { island?.host.load() }
         sync.broadcast()
         // An open editor takes the new plan unless it holds unsaved changes of its own.
         if let editor, let plan = plans.customPlan() { editor.host.call("planArrived", plan, phone) }

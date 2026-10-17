@@ -1,7 +1,7 @@
 import Foundation
 
 /// Everything between the UI and the real devices, shared by the Mac and the iPhone app:
-/// which platforms are connected (Smart Life, Home Assistant, Philips Hue, Apple Home),
+/// which platforms are connected (Smart Life, LG ThinQ, Home Assistant, Philips Hue, Apple Home),
 /// which device of the plan is linked to which real device, sending the changes made in
 /// the panel and reading the devices' state back.
 @MainActor
@@ -13,8 +13,18 @@ public final class DeviceHub {
     public let hue: HueService
     /// Apple Home: HomeKit itself on the iPhone, the iPhone's catalog on the Mac.
     public let homeKit: DeviceService
+#if os(macOS)
+    /// Native LG ThinQ Connect support is currently a Mac-only connection.
+    public let lgThinQ: LGThinQService
+#endif
     /// The platforms other than Smart Life, by the id a plan's `link.service` uses.
-    public var services: [DeviceService] { [homeAssistant, hue, homeKit] }
+    public var services: [DeviceService] {
+#if os(macOS)
+        [homeAssistant, hue, homeKit, lgThinQ]
+#else
+        [homeAssistant, hue, homeKit]
+#endif
+    }
     private func service(_ id: String) -> DeviceService? { services.first { $0.id == id } }
     /// Smart Life when it is part of this build and signed in.
     private var connectedCloud: LinkedCloud? { cloud?.isConnected == true ? cloud : nil }
@@ -53,6 +63,9 @@ public final class DeviceHub {
         hue = HueService(vault: vault("hue"))
         self.homeKit = homeKit ?? RemoteCatalogService(id: "homekit", title: "Apple Home",
                                                        file: directory.appendingPathComponent("homekit-devices.json"))
+#if os(macOS)
+        lgThinQ = LGThinQService(vault: vault("lgthinq"))
+#endif
         for service in services {
             service.onChange = { [weak self] in self?.scheduleRefresh() }
         }
@@ -157,7 +170,12 @@ public final class DeviceHub {
     }
 
     private func commandService(_ link: Link, appId: String, _ message: [String: Any], reply: @escaping ([String: Any]) -> Void) {
-        guard let service = service(link.service), service.isConnected, service.controlsDevices else {
+        guard let service = service(link.service) else {
+            reply(["error": "The \(link.service) connection is unavailable on this device."])
+            onStale?()
+            return
+        }
+        guard service.isConnected, service.controlsDevices else {
             reply(["ok": true]) // not reachable from here (Apple Home on the Mac): simulated
             return
         }
@@ -301,6 +319,13 @@ public final class DeviceHub {
         try await homeAssistant.connect(url: url, token: token)
         stamp("homeassistant")
     }
+
+#if os(macOS)
+    /// Connects the Mac directly to LG ThinQ Connect; the PAT stays in the local secret store.
+    public func connectLGThinQ(country: String = "IN", token: String) async throws {
+        try await lgThinQ.connect(country: country, token: token)
+    }
+#endif
 
     /// Pairs with a Hue Bridge; throws `HueService.ButtonNotPressed` until its button is pressed.
     public func pairHue(host: String, bridgeId: String?, name: String?) async throws {

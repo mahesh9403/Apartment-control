@@ -2,13 +2,13 @@ import AppKit
 import WebKit
 import HouseCore
 
-/// Takes the click that reaches a window which is not the key one (the island never is:
-/// hovering the notch must not steal the keyboard from the app you are typing in).
+/// Takes the click that reaches a window which is not the key one without stealing focus from
+/// the app the user is typing in.
 private final class FirstMouseWebView: WKWebView {
     override func acceptsFirstMouse(for event: NSEvent?) -> Bool { true }
 }
 
-/// A WKWebView showing the web UI in one of its modes ("panel", "editor", "island" or "agent"),
+/// A WKWebView showing the web UI in one of its modes ("panel", "editor" or "agent"),
 /// plus the JSON message bridge in both directions.
 final class WebHost: NSObject, WKScriptMessageHandler, WKNavigationDelegate {
     let webView: WKWebView

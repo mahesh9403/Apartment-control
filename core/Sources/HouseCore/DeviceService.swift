@@ -1,7 +1,7 @@
 import Foundation
 
 /// A smart home platform the plan's lamps and ACs can be linked to, besides Smart Life:
-/// Home Assistant, Philips Hue, Apple Home. Each one speaks the panel's own vocabulary —
+/// Home Assistant, LG ThinQ, Philips Hue, Apple Home. Each one speaks the panel's own vocabulary —
 /// a light is `on` / `brightness` 0…1 / `temp` in kelvin / `color` "#rrggbb", an AC is
 /// `on` / `target` / `mode` / `fan` / … — so the hub and the UI never see what is underneath.
 @MainActor

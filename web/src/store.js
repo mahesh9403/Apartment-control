@@ -57,8 +57,8 @@ export function createStore(config) {
     if (change.type !== 'tick') {
       persist();
       post('summary', summary());
-      // The native shell passes this on to its other views of the same home (the panel
-      // and the island each run their own store), which adopt it without re-sending.
+      // The native shell passes this on to another live client, which adopts it without
+      // re-sending the change.
       if (!change.adopted) post('state', { lights: state.lights, acs: state.acs, scene: state.scene, source: change.source ?? store.source ?? null });
     }
   }

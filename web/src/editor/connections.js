@@ -6,9 +6,10 @@ import { icon } from '../ui/icons.js';
 import { isNative, call } from '../bridge.js';
 import { SERVICES, linkOf } from '../config.js';
 
-const ORDER = ['smartlife', 'homeassistant', 'hue', 'homekit'];
+const ORDER = ['smartlife', 'lgthinq', 'homeassistant', 'hue', 'homekit'];
 const LOOK = {
   smartlife: { icon: 'plug', tint: '#ff7a3d', blurb: 'Tuya, Smart Life and the many brands built on them' },
+  lgthinq: { icon: 'ac', tint: '#59c7d9', blurb: 'Direct LG ThinQ Connect cloud control for LG appliances' },
   homeassistant: { icon: 'homeassistant', tint: '#18bcf2', blurb: 'Everything it runs: Zigbee, Matter, Nest, Xiaomi, Sonoff…' },
   hue: { icon: 'bulb', tint: '#c38bff', blurb: 'A Hue Bridge on this network. No account needed' },
   homekit: { icon: 'home', tint: '#ffb340', blurb: 'HomeKit and Matter accessories, through your iPhone' },
@@ -80,7 +81,7 @@ export function createConnections({ rerender, toast, usedBy, onOpen }) {
     }
     if (!info.connected) return 'Not connected';
     const count = devicesOf(id).length;
-    const name = id === 'homeassistant' ? info.name : id === 'hue' ? info.name : id === 'smartlife' ? info.account : '';
+    const name = ['homeassistant', 'lgthinq', 'hue'].includes(id) ? info.name : id === 'smartlife' ? info.account : '';
     return [name, state.devices ? `${count} device${count === 1 ? '' : 's'}` : null].filter(Boolean).join(' · ') || 'Connected';
   }
 
@@ -196,6 +197,48 @@ export function createConnections({ rerender, toast, usedBy, onOpen }) {
     ];
   }
 
+  /* ---------- LG ThinQ Connect ---------- */
+
+  const lgthinq = { country: 'IN', token: '', error: null, busy: false };
+
+  function lgThinQ() {
+    const info = state.info.lgthinq || {};
+    if (info.connected) {
+      if (!state.devices && !state.loading) setTimeout(() => load(), 0);
+      return [connectedHeader('lgthinq', 'LG ThinQ Connect', info.name || 'LG ThinQ',
+        [`country ${info.country || 'IN'}`, info.region && `region ${info.region}`, info.devices != null && `${info.devices} AC${info.devices === 1 ? '' : 's'}`].filter(Boolean).join(' · ')),
+        deviceList('lgthinq')];
+    }
+
+    const country = h('input', { type: 'text', spellcheck: 'false', value: 'IN', readonly: true, maxlength: 2 });
+    const token = h('input', { type: 'password', autocomplete: 'off', placeholder: 'LG ThinQ Connect Personal Access Token', value: lgthinq.token });
+    const ready = () => isNative && !lgthinq.busy && lgthinq.country.trim().length === 2 && lgthinq.token.trim();
+    token.addEventListener('input', () => { lgthinq.token = token.value; button.disabled = !ready(); });
+    const connect = async () => {
+      lgthinq.busy = true; lgthinq.error = null; rerender();
+      try {
+        state.info = await call('lgthinq.connect', { country: lgthinq.country, token: lgthinq.token });
+        lgthinq.token = '';
+        toast('Connected to LG ThinQ');
+        await load();
+      } catch (e) { lgthinq.error = e.message; }
+      lgthinq.busy = false;
+      rerender();
+    };
+    const button = h('button.btn.primary.wide', { onclick: connect, disabled: !ready() }, lgthinq.busy ? 'Connecting…' : 'Connect');
+    return [
+      section('Connect directly to LG ThinQ',
+        h('label.field', h('span', 'Country code'), country),
+        h('label.field', h('span', 'Personal Access Token'), token),
+        h('ol.steps',
+          h('li', 'Create an LG ThinQ Connect Personal Access Token and give it device read/control access.'),
+          h('li', 'Enter IN for an India-registered account, then paste the token here.')),
+        button,
+        lgthinq.error ? h('p.note.bad', lgthinq.error) : null,
+        h('p.note', 'The token stays on this Mac. House Control talks directly to LG ThinQ Connect; Home Assistant and Apple Home are not required.')),
+    ];
+  }
+
   /* ---------- Philips Hue ---------- */
 
   let pairTimer = 0;
@@ -295,6 +338,7 @@ export function createConnections({ rerender, toast, usedBy, onOpen }) {
 
   function detail(id, smartLifePanel) {
     if (id === 'smartlife') return smartLifePanel();
+    if (id === 'lgthinq') return lgThinQ();
     if (id === 'homeassistant') return homeAssistant();
     if (id === 'hue') return hue();
     return homeKit();
@@ -335,7 +379,7 @@ export function createConnections({ rerender, toast, usedBy, onOpen }) {
     const current = link ? `${link.service}|${link.id}` : '';
     if (!anyConnected()) {
       return section('Real device',
-        h('p.note', 'Simulated. Connect Smart Life, Home Assistant, Philips Hue or Apple Home to control the real one.'),
+        h('p.note', 'Simulated. Connect Smart Life, LG ThinQ, Home Assistant, Philips Hue or Apple Home to control the real one.'),
         h('button.btn.wide', { onclick: () => onOpen(null) }, icon('link', 14), 'Open Connections'));
     }
     if (!state.devices && !state.loading) setTimeout(() => load({ quiet: true }), 0);
